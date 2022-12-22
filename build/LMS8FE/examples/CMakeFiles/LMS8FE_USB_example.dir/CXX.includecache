@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/limenet1/Work/PCIe_5GRadio_3v1/D20221027/LMS8FE_1v1/LMS8FE/LMS8FE.h
+LimeSuite.h
+/home/limenet1/Work/PCIe_5GRadio_3v1/D20221027/LMS8FE_1v1/LMS8FE/LimeSuite.h
+cstdint
+-
+
+/home/limenet1/Work/PCIe_5GRadio_3v1/D20221027/LMS8FE_1v1/LMS8FE/LimeSuite.h
+stdint.h
+-
+
+/home/limenet1/Work/PCIe_5GRadio_3v1/D20221027/LMS8FE_1v1/LMS8FE/examples/LMS8FE_USB_example.cpp
+iostream
+-
+chrono
+-
+thread
+-
+stdio.h
+-
+../LMS8FE.h
+/home/limenet1/Work/PCIe_5GRadio_3v1/D20221027/LMS8FE_1v1/LMS8FE/LMS8FE.h
+

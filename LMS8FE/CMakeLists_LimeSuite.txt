@@ -1,0 +1,84 @@
+########################################################################
+## Support for LMS8FE
+########################################################################
+set(THIS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_subdirectory(LMS8001)
+include_directories(LMS8001)
+
+set(LMS8FEAPI_SOURCES
+   ${THIS_SOURCE_DIR}/LMS8FE_cmd.cpp
+   ${THIS_SOURCE_DIR}/LMS8FE_api.cpp
+   ${THIS_SOURCE_DIR}/LMS8FE_Device.cpp
+#milans 221128	
+    ${THIS_SOURCE_DIR}/LMS8001/API/lms8_device.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/connectionManager/ConnectionManager.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/connectionManager/ConnectionCOM.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/LMS8001.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/lmsComms.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/LMS8001_RegistersMap.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/LMS8001_parameters.cpp    
+)
+
+set(LMS8FEGUI_SOURCES
+    ${THIS_SOURCE_DIR}/LMS8FE_gui.cpp
+    ${THIS_SOURCE_DIR}/LMS8FE_wxgui.cpp
+    ${THIS_SOURCE_DIR}/LMS8FE_cmd.cpp
+    ${THIS_SOURCE_DIR}/LMS8FE_Device.cpp
+#milans 221128	
+    ${THIS_SOURCE_DIR}/LMS8001/API/lms8_device.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/connectionManager/ConnectionManager.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/connectionManager/ConnectionCOM.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/LMS8001.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/lmsComms.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/LMS8001_RegistersMap.cpp
+	${THIS_SOURCE_DIR}/LMS8001/lms8001/LMS8001_parameters.cpp 
+)
+#milans 200309
+#if(MSVC)
+#    list(APPEND LMS8FE_GUI_SOURCES ${THIS_SOURCE_DIR}/external/termiWin/termiWin.c)
+#endif()
+
+##set(LMS8FE_SOURCES
+##    ${THIS_SOURCE_DIR}/LMS8FE_cmd.cpp
+##    ${THIS_SOURCE_DIR}/LMS8FE_api.cpp
+##    ${THIS_SOURCE_DIR}/LMS8FE_Device.cpp
+##)
+
+#milans 200309
+#if(MSVC)
+#    list(APPEND LMS8FE_SOURCES ${THIS_SOURCE_DIR}/external/termiWin/termiWin.c)
+#endif()
+
+########################################################################
+## Feature registration
+########################################################################
+include(FeatureSummary)
+include(CMakeDependentOption)
+cmake_dependent_option(ENABLE_LMS8FE "Enable LMS8FE support" ON "ENABLE_LIBRARY" OFF)
+add_feature_info(LMS8FE ENABLE_LMS8FE "LMS8FE support")
+
+if(ENABLE_LMS8FE AND ENABLE_GUI)
+    target_compile_definitions(LimeSuiteGUI PUBLIC "LMS8FE")
+endif()
+
+if (NOT ENABLE_LMS8FE)
+    return()
+endif()
+
+########################################################################
+## Add to library
+########################################################################
+if(ENABLE_GUI)
+    target_sources(LimeSuiteGUI PRIVATE ${LMS8FEGUI_SOURCES})
+endif()
+
+target_sources(LimeSuite PRIVATE ${LMS8FEAPI_SOURCES})
+add_subdirectory(examples)
+
+#target_link_libraries(
+#    LimeSuiteGUI
+#    lms8suite
+#    ${wxWidgets_LIBRARIES}
+#)
+
