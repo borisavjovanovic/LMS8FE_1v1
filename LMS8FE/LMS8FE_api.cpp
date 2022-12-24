@@ -25,8 +25,11 @@ extern "C" API_EXPORT lms8fe_dev_t *CALL_CONV LMS8FE_Open(const char *serialport
 
     LMS8FE_COM com;
     // for unix
+    // B.J. commented 24.11.2022
+#ifdef __unix__
     com.fd = -1;
     com.hComm = -1; // B.J.
+#endif
 #ifndef __unix__
     com.hComm = 0;
 #endif

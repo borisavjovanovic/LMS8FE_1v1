@@ -8,6 +8,7 @@
 #define CONNECTION_COM_PORT_H
 
 #ifndef __unix__
+#define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 #endif
 

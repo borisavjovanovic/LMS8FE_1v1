@@ -62,19 +62,19 @@ LINK_DIRECTORIES(/usr/local/lib)
 
 target_link_libraries(
     LMS8FEAPI
-    LimeSuite
     LMS8001
     lms8suite     
 )
+## insert LimeSuite when SPI is used
 
 target_link_libraries(
     LMS8FE 
     LMS8FEAPI
-    LimeSuite
     LMS8001
     lms8suite    
     ${wxWidgets_LIBRARIES}    
 )
+## insert LimeSuite when SPI is used
 
 target_compile_definitions(LMS8FE PRIVATE WIN32_LEAN_AND_MEAN)
 

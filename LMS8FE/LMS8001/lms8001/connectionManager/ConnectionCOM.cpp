@@ -20,6 +20,13 @@
 #include <stdio.h>
 #endif // LINUX
 
+// B.J. commented 24.11.2022
+#ifndef __unix__
+#include <stdlib.h>
+#include <iostream>
+#include <stdio.h>
+#endif 
+
 const int COM_RETRY_INTERVAL = 20; // ms
 const int COM_TOTAL_TIMEOUT = 300; // ms
 

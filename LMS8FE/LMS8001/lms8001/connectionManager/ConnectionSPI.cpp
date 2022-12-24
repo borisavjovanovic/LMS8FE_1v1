@@ -32,8 +32,11 @@ const int ConnectionSPI::cSPI_SPEED_HZ = 2000000;
 /** @brief Tries to read EEPROM for Novena board signature
     @return true if Novena board
 */
-bool IsNovenaBoard()
-{
+
+
+// B.J. commented 24.11.2022
+//bool IsNovenaBoard()
+//{
 /*
 #ifdef __unix__
     char data[8];
@@ -77,7 +80,7 @@ bool IsNovenaBoard()
     return false;
 #endif
 */
-}
+//}
 
 /** @brief Initializes SPI port and exports needed GPIO
 */
@@ -291,10 +294,12 @@ int ConnectionSPI::RefreshDeviceList()
     int spidev = open("/dev/spidev2.0", O_RDWR);
 	if (spidev >= 0)
 	{
-	    if(IsNovenaBoard() == true)
+	    /*
+        if(IsNovenaBoard() == true)
             m_deviceNames.push_back("SPI (Novena)");
         else
             m_deviceNames.push_back("SPI");
+        */    
 	}
     close(spidev);
 #endif

@@ -32,6 +32,8 @@
 #include <wx/gauge.h>
 #include <wx/grid.h>
 #include <wx/frame.h>
+// B.J. 24.12.2022
+#include <wx/wx.h>
 
 ///////////////////////////////////////////////////////////////////////////
 

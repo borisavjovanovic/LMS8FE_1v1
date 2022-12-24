@@ -101,11 +101,15 @@ protected:
 	int GetChannelID(int channelTXRX);
 	int GetChannelIndexes(int channelID, int *typeIndex, int *channelIndex);
 
-	int lastSelectionRX[3] = {0, 0, 0};
-	int lastSelectionTX[3] = {0, 0, 0};
-
-	int portRXvals[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	int portTXvals[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	// B.J. commented 24.11.2022
+	//int lastSelectionRX[3] = {0, 0, 0};
+	//int lastSelectionTX[3] = {0, 0, 0};
+	//int portRXvals[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	//int portTXvals[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int lastSelectionRX[3];
+	int lastSelectionTX[3];
+	int portRXvals[10];
+	int portTXvals[10];
 
 	bool SelectPort(int channelTXRX);
 
@@ -210,7 +214,9 @@ protected:
 	void OnchSC1905_Set_Adaptation_State(wxCommandEvent &event);
 	void OnchSC1905_Set_Correction_Enable(wxCommandEvent &event);
 
-	void OnClose_LMS8FE_view(wxCommandEvent &event);
+	//void OnClose_LMS8FE_view(wxCommandEvent &event);
+	// B.J. 24.12.2022
+	void OnClose_LMS8FE_view(wxCloseEvent &event);
 
 	void OnbtnSC1905_Clear_Warnings(wxCommandEvent &event);
 
@@ -236,9 +242,10 @@ protected:
 	void OnbtnSC1905_EEPROM_Execute(wxCommandEvent &event);
 	void SC1905_EEPROM_Update_Form();
 
-	// B.J. temporary
+	// B.J. commented 24.11.2022
 	// nece da se kompajlira sa true
-	std::atomic_bool userCancel; //  = true;
+	// std::atomic_bool userCancel; //  = true;
+	std::atomic<bool> userCancel;
 
 	void maxPwrCalOngoingThreadFunction(int freq, std::atomic<bool> &userCancel, CancelDialog *cancelDialog);
 

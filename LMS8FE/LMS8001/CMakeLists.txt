@@ -77,8 +77,8 @@ set(LMS8API_SOURCES
 
 add_library(LMS8API SHARED ${LMS8API_SOURCES})
 target_include_directories(LMS8API PUBLIC ${LMS8API_INCLUDES})
-target_link_libraries(LMS8API LimeSuite ${CYAPI_LIBRARIES})
-# NOVO! LimeSuite
+target_link_libraries(LMS8API ${CYAPI_LIBRARIES})
+# insert LimeSuite when SPI connection is used
 
 if (MSVC)
 	set_target_properties(LMS8API PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
@@ -110,8 +110,7 @@ endif()
 	
 # NOVO! LimeSuite
 target_link_libraries( lms8suite
-    LimeSuite 
-	ADF4002 	
+  	ADF4002 	
 	Si5351C 	
 	lms8001_wxgui 
 	LMS8001 
@@ -121,6 +120,7 @@ target_link_libraries( lms8suite
 	${wxWidgets_LIBRARIES}
     LMS8API
 	)
+# insert LimeSuite when SPI connection is used
 
 if(UNIX)	
 	set(CONNECTION_MANAGER_LIBS usb-1.0 -lpthread)

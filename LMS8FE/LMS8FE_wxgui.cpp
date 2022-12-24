@@ -41,6 +41,18 @@ LMS8FE_wxgui::LMS8FE_wxgui(wxWindow *parent, wxWindowID id, const wxString &titl
 	lms8fe = nullptr;
 	m_timer = new wxTimer(this, TIMER_ID2);
 
+		// B.J. commented 24.11.2022
+	for (int i = 0; i < 3; i++) {
+		lastSelectionRX[i] = 0;
+		lastSelectionTX[i] = 0;
+	}
+	for (int i = 0; i < 10; i++) {
+		portRXvals[i] = 0;
+		portTXvals[i] = 0;
+	}
+	// B.J. commented 24.11.2022
+	userCancel = true;
+	
 	UpdateLMS8FEForm();
 
 	freqRanges[0] = 4;
@@ -180,7 +192,7 @@ void LMS8FE_wxgui::Initialize(lms_device_t *lms)
 	//	timerSC1905Update = std::thread(&LMS8FE_wxgui::timerSC1905UpdateThreadFunction, this, 0);
 }
 
-void LMS8FE_wxgui::OnClose_LMS8FE_view(wxCommandEvent &event)
+void LMS8FE_wxgui::OnClose_LMS8FE_view(wxCloseEvent &event)
 {
 	// This is probably not working? Is it needed? How to do it?
 	// Increase threadID, so that the current timing thread (which was detached) ends, and wait for 2 seconds to make sure it happens
@@ -190,6 +202,8 @@ void LMS8FE_wxgui::OnClose_LMS8FE_view(wxCommandEvent &event)
 	// B.J. thread  commented this
 	// stopTimerSC1905UpdateThread();
 	m_timer->Stop();
+	this->Destroy();
+	
 }
 
 void LMS8FE_wxgui::OnbtnOpenPort(wxCommandEvent &event)
@@ -697,8 +711,9 @@ void LMS8FE_wxgui::OnQuit(wxCommandEvent &event)
 {
 	//	LMS7SuiteAppFrame* parentFrame;
 	//	parentFrame = (LMS7SuiteAppFrame*)this->GetParent();
-	//	wxCloseEvent closeEvent;
-	//	parentFrame->OnLimeLMS8FEClose(closeEvent);
+    // B.J 24.12.2022
+	wxCloseEvent closeEvent;
+	OnClose_LMS8FE_view(closeEvent);
 }
 
 void LMS8FE_wxgui::OnbtnClearMessages(wxCommandEvent &event)
@@ -2103,11 +2118,17 @@ void LMS8FE_wxgui::OnmiLMS8001(wxCommandEvent &event)
 	{
 		//		lms8001GUI = new LMS8SuiteAppFrame(this, wxNewId(), _("LMS8001"));
 		lms8001GUI = new LMS8SuiteAppFrame(this);
-		//cout << "(int)dev->com.hComm =" << (int)dev->com.hComm << std::endl; // B.J.
+
+		char mssg[200];
+		sprintf(mssg, "dev->com.hComm =%d", (int)dev->com.hComm);
+		AddMssg(mssg);
+		cout << "(int)dev->com.hComm =" << (int)dev->com.hComm << std::endl; // B.J.
 		wxCommandEvent event;
 		// milans 221125 - added (int)
 		if (((int)dev->com.hComm) > -1)
 		{ // B.J. added check
+		    //sprintf(mssg, "(int)dev->com.hComm =%d", (int)dev->com.hComm);
+			//AddMssg(mssg);			
 			lms8001GUI->Initialize(dev->com.hComm);
 			lms8001GUI->InitializeSDR(nullptr);
 			lms8001GUI->OnControlBoardConnect(event);

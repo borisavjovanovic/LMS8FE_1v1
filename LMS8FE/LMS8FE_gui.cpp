@@ -481,7 +481,7 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	fgSizer6->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
 
 	m_panel8 = new wxPanel(pnlRFPAL, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_RAISED | wxTAB_TRAVERSAL);
-	//m_panel8->Hide();
+	m_panel8->Hide();
 
 	wxStaticBoxSizer *sbSizer7;
 	sbSizer7 = new wxStaticBoxSizer(new wxStaticBox(m_panel8, wxID_ANY, wxT("SC1905 Test")), wxVERTICAL);

@@ -1,8 +1,16 @@
 #include "LMS8FE_constants.h"
 #include "INI.h"
 #include <chrono>
-#include "lime/lms7_device.h"
+
+
+// B.J. commented 24.11.2022
+// remove comment when SPI connection is used
+///#include "lime/lms7_device.h"
+
 #include <iostream>
+
+// B.J. commented 24.11.2022
+#include <thread>
 // #include "LimeSuite.h"
 
 #define MADDRESS 170 * 32
@@ -1410,6 +1418,26 @@ int Lms8fe_Cmd_Get_Config_Full(lms_device_t *dev, LMS8FE_COM com, uint8_t *state
 	memcpy(state, buf + 1, size);
 
 	return result;
+}
+
+
+// B.J. commented 24.11.2022
+// dummy declarations
+// these functions are part of LimeSute API
+// remove when SPI connection is used
+
+int LMS_ReadEXTBRDReg(lms_device_t *device, uint32_t address, uint16_t *val){
+	return 0;
+}
+int LMS_ReadEXTBRD(lms_device_t *device, uint32_t * address, uint32_t *data, unsigned cnt){
+	return 0;
+
+}
+int LMS_WriteEXTBRDReg(lms_device_t *device, uint32_t address, uint16_t val){
+	return 0;
+}
+int LMS_WriteEXTBRD(lms_device_t *device, uint32_t * address, uint32_t *data, unsigned cnt){
+	return 0;
 }
 
 // B.J.
