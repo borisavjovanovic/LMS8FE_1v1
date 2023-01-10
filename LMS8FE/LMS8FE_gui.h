@@ -52,13 +52,13 @@ protected:
 	wxPanel *m_panel15;
 	wxRadioButton *rbI2C;
 	wxRadioButton *rbUSB;
-    
-    wxButton *btnREADSPI; // B.J.
+
+	wxButton *btnREADSPI;  // B.J.
 	wxButton *btnWRITESPI; // B.J.
-	wxCheckBox *cbSingle; //B.J.
-	
-	wxTextCtrl* txtCtrlADDRSPI; 
-	wxTextCtrl* txtCtrlDATASPI;
+	wxCheckBox *cbSingle;  // B.J.
+
+	wxTextCtrl *txtCtrlADDRSPI; // B.J.
+	wxTextCtrl *txtCtrlDATASPI; // B.J.
 
 	wxPanel *m_panel161;
 	wxComboBox *cmbbPorts;
@@ -79,12 +79,14 @@ protected:
 	wxCheckBox *cbSD_AMPX;
 	wxCheckBox *cbSC1905_X_RESETn;
 	wxCheckBox *cbLMS8001_X_RESETn;
-	wxCheckBox *cbDAX_EN;
+	wxStaticText *m_staticText4311;
+	wxComboBox *cmbTXX_ATT;
+	wxCheckBox *cbPDAX_EN;
 	wxCheckBox *cbLNAX_EN;
 	wxStaticText *m_staticText431;
-	wxComboBox *cmbPAX_CPL;
-	wxCheckBox *cbPAX_X_EN;
-	wxCheckBox *cbPAX_A_B_CTRL;
+	wxComboBox *cmbORXX_ATT;
+	wxCheckBox *cbDAX_X_EN;
+	wxCheckBox *cbDAX_A_B_CTRL;
 	wxCheckBox *cbTXRX_X;
 	wxPanel *m_panel14;
 	wxCheckBox *cbSPI_2_MCU_DIR_OUT_in;
@@ -95,27 +97,31 @@ protected:
 	wxCheckBox *cbLMS8001_2_RESETn;
 	wxCheckBox *cbSC1905_1_SSENn;
 	wxCheckBox *cbSC1905_2_SSENn;
-	wxCheckBox *cbGPIO_SEL_A_LMS8001;
+	//wxCheckBox *cbGPIO_SEL_A_LMS8001; ????
 	wxCheckBox *cbSC1905_1_RESETn;
 	wxCheckBox *cbSC1905_2_RESETn;
 	wxCheckBox *cbBP_AMP1;
 	wxCheckBox *cbSD_AMP1;
 	wxCheckBox *cbBP_AMP2;
 	wxCheckBox *cbSD_AMP2;
-	wxCheckBox *cbPA1_A_EN;
-	wxCheckBox *cbPA1_B_EN;
-	wxCheckBox *cbPA2_A_EN;
-	wxCheckBox *cbPA2_B_EN;
+	wxCheckBox *cbDA1_A_EN;
+	wxCheckBox *cbDA1_B_EN;
+	wxCheckBox *cbDA2_A_EN;
+	wxCheckBox *cbDA2_B_EN;
 	wxCheckBox *cbLNA1_EN;
 	wxCheckBox *cbLNA2_EN;
-	wxCheckBox *cbDA1_EN;
-	wxCheckBox *cbDA2_EN;
-	wxCheckBox *cbPA1_A_B_CTRL;
-	wxCheckBox *cbPA2_A_B_CTRL;
+	wxCheckBox *cbPDA1_EN;
+	wxCheckBox *cbPDA2_EN;
+	wxCheckBox *cbDA1_A_B_CTRL;
+	wxCheckBox *cbDA2_A_B_CTRL;
 	wxStaticText *m_staticText43;
-	wxComboBox *cmbPA1_CPL;
+	wxComboBox *cmbORX1_ATT;
 	wxStaticText *m_staticText44;
-	wxComboBox *cmbPA2_CPL;
+	wxComboBox *cmbORX2_ATT;
+	wxStaticText *m_staticText432;
+	wxComboBox *cmbTX1_ATT;
+	wxStaticText *m_staticText441;
+	wxComboBox *cmbTX2_ATT;
 	wxCheckBox *cbTXRX_1;
 	wxCheckBox *cbTXRX_2;
 	wxButton *btnApplyData;
@@ -272,8 +278,8 @@ protected:
 	virtual void OnGridCellChangegridSC1905_EEPROM_Parameters(wxGridEvent &event) { event.Skip(); }
 	virtual void OnbtnClearMessages(wxCommandEvent &event) { event.Skip(); }
 
-	virtual void OnbtnREADSPI(wxCommandEvent &event) { event.Skip(); }  // B.J.
-	virtual void OnbtnWRITESPI(wxCommandEvent &event) { event.Skip(); }  // B.J.
+	virtual void OnbtnREADSPI(wxCommandEvent &event) { event.Skip(); }	// B.J.
+	virtual void OnbtnWRITESPI(wxCommandEvent &event) { event.Skip(); } // B.J.
 
 public:
 	LMS8FE_view(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &title = wxT("LMS8FE Control"), const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxSize(-1, -1), long style = wxCAPTION | wxCLOSE_BOX | wxMINIMIZE_BOX | wxSYSTEM_MENU | wxTAB_TRAVERSAL);

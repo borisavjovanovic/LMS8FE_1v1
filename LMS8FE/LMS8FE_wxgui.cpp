@@ -41,18 +41,20 @@ LMS8FE_wxgui::LMS8FE_wxgui(wxWindow *parent, wxWindowID id, const wxString &titl
 	lms8fe = nullptr;
 	m_timer = new wxTimer(this, TIMER_ID2);
 
-		// B.J. commented 24.11.2022
-	for (int i = 0; i < 3; i++) {
+	// B.J. commented 24.11.2022
+	for (int i = 0; i < 3; i++)
+	{
 		lastSelectionRX[i] = 0;
 		lastSelectionTX[i] = 0;
 	}
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++)
+	{
 		portRXvals[i] = 0;
 		portTXvals[i] = 0;
 	}
 	// B.J. commented 24.11.2022
 	userCancel = true;
-	
+
 	UpdateLMS8FEForm();
 
 	freqRanges[0] = 4;
@@ -166,19 +168,44 @@ LMS8FE_wxgui::LMS8FE_wxgui(wxWindow *parent, wxWindowID id, const wxString &titl
 
 	char attString[100];
 
-	cmbPA1_CPL->Clear();
-	cmbPA2_CPL->Clear();
-	cmbPAX_CPL->Clear();
+	// milans 221223
+	//	cmbPA1_CPL->Clear();
+	//	cmbPA2_CPL->Clear();
+	//	cmbPAX_CPL->Clear();
+	cmbORX1_ATT->Clear();
+	cmbORX2_ATT->Clear();
+	cmbORXX_ATT->Clear();
+	// milans 221223
+	cmbTX1_ATT->Clear();
+	cmbTX2_ATT->Clear();
+	cmbTXX_ATT->Clear();
+
 	for (int i = 0; i < 128; i++)
 	{
 		sprintf(attString, "%.2f", i * 0.25);
-		cmbPA1_CPL->AppendString(attString);
-		cmbPA2_CPL->AppendString(attString);
-		cmbPAX_CPL->AppendString(attString);
+		// milans 221223
+		//		cmbPA1_CPL->AppendString(attString);
+		//		cmbPA2_CPL->AppendString(attString);
+		//		cmbPAX_CPL->AppendString(attString);
+		cmbORX1_ATT->AppendString(attString);
+		cmbORX2_ATT->AppendString(attString);
+		cmbORXX_ATT->AppendString(attString);
+		// milans 221223
+		cmbTX1_ATT->AppendString(attString);
+		cmbTX2_ATT->AppendString(attString);
+		cmbTXX_ATT->AppendString(attString);
 	}
-	cmbPA1_CPL->SetSelection(0);
-	cmbPA2_CPL->SetSelection(0);
-	cmbPAX_CPL->SetSelection(0);
+	// milans 221223
+	//	cmbPA1_CPL->SetSelection(0);
+	//	cmbPA2_CPL->SetSelection(0);
+	//	cmbPAX_CPL->SetSelection(0);
+	cmbORX1_ATT->SetSelection(0);
+	cmbORX2_ATT->SetSelection(0);
+	cmbORXX_ATT->SetSelection(0);
+	// milans 221223
+	cmbTX1_ATT->SetSelection(0);
+	cmbTX2_ATT->SetSelection(0);
+	cmbTXX_ATT->SetSelection(0);
 
 	bmpChannel = wxBITMAP_PNG_FROM_DATA(LMS8FE_channel);
 }
@@ -203,7 +230,6 @@ void LMS8FE_wxgui::OnClose_LMS8FE_view(wxCloseEvent &event)
 	// stopTimerSC1905UpdateThread();
 	m_timer->Stop();
 	this->Destroy();
-	
 }
 
 void LMS8FE_wxgui::OnbtnOpenPort(wxCommandEvent &event)
@@ -215,7 +241,7 @@ void LMS8FE_wxgui::OnbtnOpenPort(wxCommandEvent &event)
 	//		AddMssg("Port already opened.");
 	//		return;
 	//	}
-	unsigned char cinfo[4];
+	
 	wxString PortName = cmbbPorts->GetValue();
 
 	if (lms8fe)
@@ -292,20 +318,14 @@ void LMS8FE_wxgui::OnbtnOpenPort(wxCommandEvent &event)
 						lms8fe = new LMS8FE_Device(nullptr, com);
 			*/
 		}
-		else
-		{
-			lms8fe = LMS8FE_Open(nullptr, lmsControl);			
-		}
-
+		else		
+			lms8fe = LMS8FE_Open(nullptr, lmsControl);
+		
 		if (lms8fe == nullptr)
 		{
 			AddMssg("Error initializing serial port");
 			return;
 		}
-		else {
-			int result = LMS8FE_GetInfo(lms8fe, cinfo);
-		}
-
 	}
 	/*
 		boardInfo info;
@@ -359,6 +379,8 @@ void LMS8FE_wxgui::OnbtnOpenPort(wxCommandEvent &event)
 		AddMssg(msg);
 	*/
 
+	unsigned char cinfo[4];
+
 	int result = LMS8FE_GetInfo(lms8fe, cinfo);
 	if (result != LMS8FE_SUCCESS)
 	{
@@ -403,7 +425,7 @@ void LMS8FE_wxgui::stopTimerSC1905UpdateThread()
 void LMS8FE_wxgui::OnbtnClosePort(wxCommandEvent &event)
 {
 	// milans 220608
-	
+
 	// B.J. thread
 	// stopTimerSC1905UpdateThread();
 	m_timer->Stop();
@@ -563,25 +585,42 @@ void LMS8FE_wxgui::OnbtnSave(wxCommandEvent &event)
 	configuredState.LMS8001_2_RESETn = cbLMS8001_2_RESETn->GetValue();
 	configuredState.SC1905_1_SSENn = cbSC1905_1_SSENn->GetValue();
 	configuredState.SC1905_2_SSENn = cbSC1905_2_SSENn->GetValue();
-	configuredState.GPIO_SEL_A_LMS8001 = cbGPIO_SEL_A_LMS8001->GetValue();
+	// milans 221223
+	//	configuredState.GPIO_SEL_A_LMS8001 = cbGPIO_SEL_A_LMS8001->GetValue();
 	configuredState.SC1905_1_RESETn = cbSC1905_1_RESETn->GetValue();
 	configuredState.SC1905_2_RESETn = cbSC1905_2_RESETn->GetValue();
 	configuredState.BP_AMP1 = cbBP_AMP1->GetValue();
 	configuredState.SD_AMP1 = cbSD_AMP1->GetValue();
 	configuredState.BP_AMP2 = cbBP_AMP2->GetValue();
 	configuredState.SD_AMP2 = cbSD_AMP2->GetValue();
-	configuredState.PA1_A_EN = cbPA1_A_EN->GetValue();
-	configuredState.PA1_B_EN = cbPA1_B_EN->GetValue();
-	configuredState.PA2_A_EN = cbPA2_A_EN->GetValue();
-	configuredState.PA2_B_EN = cbPA2_B_EN->GetValue();
+	// milans 221223
+	//	configuredState.PA1_A_EN = cbPA1_A_EN->GetValue();
+	//	configuredState.PA1_B_EN = cbPA1_B_EN->GetValue();
+	//	configuredState.PA2_A_EN = cbPA2_A_EN->GetValue();
+	//	configuredState.PA2_B_EN = cbPA2_B_EN->GetValue();
+	configuredState.DA1_A_EN = cbDA1_A_EN->GetValue();
+	configuredState.DA1_B_EN = cbDA1_B_EN->GetValue();
+	configuredState.DA2_A_EN = cbDA2_A_EN->GetValue();
+	configuredState.DA2_B_EN = cbDA2_B_EN->GetValue();
+
 	configuredState.LNA1_EN = cbLNA1_EN->GetValue();
 	configuredState.LNA2_EN = cbLNA2_EN->GetValue();
-	configuredState.DA1_EN = cbDA1_EN->GetValue();
-	configuredState.DA2_EN = cbDA2_EN->GetValue();
-	configuredState.PA1_A_B_CTRL = cbPA1_A_B_CTRL->GetValue();
-	configuredState.PA2_A_B_CTRL = cbPA2_A_B_CTRL->GetValue();
-	configuredState.PA1_CPL_ATT = cmbPA1_CPL->GetSelection();
-	configuredState.PA2_CPL_ATT = cmbPA2_CPL->GetSelection();
+	// milans 221223
+	//	configuredState.DA1_EN = cbDA1_EN->GetValue();
+	//	configuredState.DA2_EN = cbDA2_EN->GetValue();
+	//	configuredState.PA1_A_B_CTRL = cbPA1_A_B_CTRL->GetValue();
+	//	configuredState.PA2_A_B_CTRL = cbPA2_A_B_CTRL->GetValue();
+	//	configuredState.PA1_CPL_ATT = cmbPA1_CPL->GetSelection();
+	//	configuredState.PA2_CPL_ATT = cmbPA2_CPL->GetSelection();
+	configuredState.PDA1_EN = cbPDA1_EN->GetValue();
+	configuredState.PDA2_EN = cbPDA2_EN->GetValue();
+	configuredState.DA1_A_B_CTRL = cbDA1_A_B_CTRL->GetValue();
+	configuredState.DA2_A_B_CTRL = cbDA2_A_B_CTRL->GetValue();
+	configuredState.ORX1_ATT = cmbORX1_ATT->GetSelection();
+	configuredState.ORX2_ATT = cmbORX2_ATT->GetSelection();
+	configuredState.TX1_ATT = cmbTX1_ATT->GetSelection();
+	configuredState.TX2_ATT = cmbTX2_ATT->GetSelection();
+
 	configuredState.TXRX_1 = cbTXRX_1->GetValue();
 	configuredState.TXRX_2 = cbTXRX_2->GetValue();
 
@@ -711,7 +750,7 @@ void LMS8FE_wxgui::OnQuit(wxCommandEvent &event)
 {
 	//	LMS7SuiteAppFrame* parentFrame;
 	//	parentFrame = (LMS7SuiteAppFrame*)this->GetParent();
-    // B.J 24.12.2022
+	// B.J 24.12.2022
 	wxCloseEvent closeEvent;
 	OnClose_LMS8FE_view(closeEvent);
 }
@@ -1229,7 +1268,7 @@ void LMS8FE_wxgui::timerSC1905UpdateThreadFunction(float interval, int id, std::
 		// kontrole na dijalogu ne smeju da se updejtuju u threadu
 		// u thread-u treba da se obavi citanje a tek onda, van thread-a, da se te informacije updejtuju u dijalog
 
-		UpdateSC1905(false);	
+		UpdateSC1905(false);
 		//		AddMssg(mssg);
 		//		if (!continue_flag) {
 		if (id != currID)
@@ -1368,8 +1407,8 @@ void LMS8FE_wxgui::OnchSC1905_Update_Rate(wxCommandEvent &event)
 	{
 		// B.J. threads
 		m_timer->Stop();
-		
-				// milans 220616
+
+		// milans 220616
 		//  Uncomment this, when the SC1905 is connected
 		//  I commented it for the development, without the SC1905 connected
 		//		interval = 1;
@@ -2126,9 +2165,9 @@ void LMS8FE_wxgui::OnmiLMS8001(wxCommandEvent &event)
 		wxCommandEvent event;
 		// milans 221125 - added (int)
 		if (((int)dev->com.hComm) > -1)
-		{ // B.J. added check
-		    //sprintf(mssg, "(int)dev->com.hComm =%d", (int)dev->com.hComm);
-			//AddMssg(mssg);			
+		{	// B.J. added check
+			// sprintf(mssg, "(int)dev->com.hComm =%d", (int)dev->com.hComm);
+			// AddMssg(mssg);
 			lms8001GUI->Initialize(dev->com.hComm);
 			lms8001GUI->InitializeSDR(nullptr);
 			lms8001GUI->OnControlBoardConnect(event);
@@ -2162,45 +2201,43 @@ void LMS8FE_wxgui::OnbtnApplyData(wxCommandEvent &event)
 	setStateBit(state, LMS8001_2_RESETn_BYTE, LMS8001_2_RESETn_BIT, cbLMS8001_2_RESETn->GetValue());
 	setStateBit(state, SC1905_1_SSENn_BYTE, SC1905_1_SSENn_BIT, cbSC1905_1_SSENn->GetValue());
 	setStateBit(state, SC1905_2_SSENn_BYTE, SC1905_2_SSENn_BIT, cbSC1905_2_SSENn->GetValue());
-	setStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT, cbGPIO_SEL_A_LMS8001->GetValue());
+	// milans 221223
+	//	setStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT, cbGPIO_SEL_A_LMS8001->GetValue());
 	setStateBit(state, SC1905_1_RESETn_BYTE, SC1905_1_RESETn_BIT, cbSC1905_1_RESETn->GetValue());
 	setStateBit(state, SC1905_2_RESETn_BYTE, SC1905_2_RESETn_BIT, cbSC1905_2_RESETn->GetValue());
 	setStateBit(state, BYPASS_AMP1_BYTE, BYPASS_AMP1_BIT, cbBP_AMP1->GetValue());
 	setStateBit(state, DISABLE_AMP1_BYTE, DISABLE_AMP1_BIT, cbSD_AMP1->GetValue());
 	setStateBit(state, BYPASS_AMP2_BYTE, BYPASS_AMP2_BIT, cbBP_AMP2->GetValue());
 	setStateBit(state, DISABLE_AMP2_BYTE, DISABLE_AMP2_BIT, cbSD_AMP2->GetValue());
-	setStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT, cbPA1_A_EN->GetValue());
-	setStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT, cbPA1_B_EN->GetValue());
-	setStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT, cbPA2_A_EN->GetValue());
-	setStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT, cbPA2_B_EN->GetValue());
+	// milans 221223
+	//	setStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT, cbPA1_A_EN->GetValue());
+	//	setStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT, cbPA1_B_EN->GetValue());
+	//	setStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT, cbPA2_A_EN->GetValue());
+	//	setStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT, cbPA2_B_EN->GetValue());
+	setStateBit(state, DA1_A_EN_BYTE, DA1_A_EN_BIT, cbDA1_A_EN->GetValue());
+	setStateBit(state, DA1_B_EN_BYTE, DA1_B_EN_BIT, cbDA1_B_EN->GetValue());
+	setStateBit(state, DA2_A_EN_BYTE, DA2_A_EN_BIT, cbDA2_A_EN->GetValue());
+	setStateBit(state, DA2_B_EN_BYTE, DA2_B_EN_BIT, cbDA2_B_EN->GetValue());
+    
 	setStateBit(state, LNA1_EN_BYTE, LNA1_EN_BIT, cbLNA1_EN->GetValue());
 	setStateBit(state, LNA2_EN_BYTE, LNA2_EN_BIT, cbLNA2_EN->GetValue());
-	setStateBit(state, DA1_EN_BYTE, DA1_EN_BIT, cbDA1_EN->GetValue());
-	setStateBit(state, DA2_EN_BYTE, DA2_EN_BIT, cbDA2_EN->GetValue());
-	setStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT, cbPA1_A_B_CTRL->GetValue());
-	setStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT, cbPA2_A_B_CTRL->GetValue());
+	// milans 221223
+	//	setStateBit(state, DA1_EN_BYTE, DA1_EN_BIT, cbDA1_EN->GetValue());
+	//	setStateBit(state, DA2_EN_BYTE, DA2_EN_BIT, cbDA2_EN->GetValue());
+	//	setStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT, cbPA1_A_B_CTRL->GetValue());
+	//	setStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT, cbPA2_A_B_CTRL->GetValue());
+	setStateBit(state, PDA1_EN_BYTE, PDA1_EN_BIT, cbPDA1_EN->GetValue());
+	setStateBit(state, PDA2_EN_BYTE, PDA2_EN_BIT, cbPDA2_EN->GetValue());
+	setStateBit(state, DA1_A_B_CTRL_BYTE, DA1_A_B_CTRL_BIT, cbDA1_A_B_CTRL->GetValue());
+	setStateBit(state, DA2_A_B_CTRL_BYTE, DA2_A_B_CTRL_BIT, cbDA2_A_B_CTRL->GetValue());
 
 	int selection = 0;
 	int selectionBits[7];
 	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
 
-	selection = cmbPA1_CPL->GetSelection();
-
-	for (int i = 0; selection > 0; i++)
-	{
-		selectionBits[i] = selection % 2;
-		selection = selection / 2;
-	}
-
-	setStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT, selectionBits[0]);
-	setStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT, selectionBits[1]);
-	setStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT, selectionBits[2]);
-	setStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT, selectionBits[3]);
-	setStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT, selectionBits[4]);
-	setStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT, selectionBits[5]);
-	setStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT, selectionBits[6]);
-
-	selection = cmbPA2_CPL->GetSelection();
+	// milans 221223
+	//	selection = cmbPA1_CPL->GetSelection();
+	selection = cmbORX1_ATT->GetSelection();
 
 	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
 
@@ -2210,13 +2247,86 @@ void LMS8FE_wxgui::OnbtnApplyData(wxCommandEvent &event)
 		selection = selection / 2;
 	}
 
-	setStateBit(state, PA2_CPL_D0_BYTE, PA2_CPL_D0_BIT, selectionBits[0]);
-	setStateBit(state, PA2_CPL_D1_BYTE, PA2_CPL_D1_BIT, selectionBits[1]);
-	setStateBit(state, PA2_CPL_D2_BYTE, PA2_CPL_D2_BIT, selectionBits[2]);
-	setStateBit(state, PA2_CPL_D3_BYTE, PA2_CPL_D3_BIT, selectionBits[3]);
-	setStateBit(state, PA2_CPL_D4_BYTE, PA2_CPL_D4_BIT, selectionBits[4]);
-	setStateBit(state, PA2_CPL_D5_BYTE, PA2_CPL_D5_BIT, selectionBits[5]);
-	setStateBit(state, PA2_CPL_D6_BYTE, PA2_CPL_D6_BIT, selectionBits[6]);
+	// milans 22123
+	//	setStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT, selectionBits[0]);
+	//	setStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT, selectionBits[1]);
+	///	setStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT, selectionBits[2]);
+	//	setStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT, selectionBits[3]);
+	//	setStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT, selectionBits[4]);
+	//	setStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT, selectionBits[5]);
+	//	setStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT, selectionBits[6]);
+	setStateBit(state, ORX1_ATT_D0_BYTE, ORX1_ATT_D0_BIT, selectionBits[0]);
+	setStateBit(state, ORX1_ATT_D1_BYTE, ORX1_ATT_D1_BIT, selectionBits[1]);
+	setStateBit(state, ORX1_ATT_D2_BYTE, ORX1_ATT_D2_BIT, selectionBits[2]);
+	setStateBit(state, ORX1_ATT_D3_BYTE, ORX1_ATT_D3_BIT, selectionBits[3]);
+	setStateBit(state, ORX1_ATT_D4_BYTE, ORX1_ATT_D4_BIT, selectionBits[4]);
+	setStateBit(state, ORX1_ATT_D5_BYTE, ORX1_ATT_D5_BIT, selectionBits[5]);
+	setStateBit(state, ORX1_ATT_D6_BYTE, ORX1_ATT_D6_BIT, selectionBits[6]);
+
+	// milans 221223
+	//	selection = cmbPA2_CPL->GetSelection();
+	selection = cmbORX2_ATT->GetSelection();
+
+	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
+
+	for (int i = 0; selection > 0; i++)
+	{
+		selectionBits[i] = selection % 2;
+		selection = selection / 2;
+	}
+
+	// milans 221223
+	//	setStateBit(state, PA2_CPL_D0_BYTE, PA2_CPL_D0_BIT, selectionBits[0]);
+	//	setStateBit(state, PA2_CPL_D1_BYTE, PA2_CPL_D1_BIT, selectionBits[1]);
+	//	setStateBit(state, PA2_CPL_D2_BYTE, PA2_CPL_D2_BIT, selectionBits[2]);
+	//	setStateBit(state, PA2_CPL_D3_BYTE, PA2_CPL_D3_BIT, selectionBits[3]);
+	//	setStateBit(state, PA2_CPL_D4_BYTE, PA2_CPL_D4_BIT, selectionBits[4]);
+	//	setStateBit(state, PA2_CPL_D5_BYTE, PA2_CPL_D5_BIT, selectionBits[5]);
+	//	setStateBit(state, PA2_CPL_D6_BYTE, PA2_CPL_D6_BIT, selectionBits[6]);
+	setStateBit(state, ORX2_ATT_D0_BYTE, ORX2_ATT_D0_BIT, selectionBits[0]);
+	setStateBit(state, ORX2_ATT_D1_BYTE, ORX2_ATT_D1_BIT, selectionBits[1]);
+	setStateBit(state, ORX2_ATT_D2_BYTE, ORX2_ATT_D2_BIT, selectionBits[2]);
+	setStateBit(state, ORX2_ATT_D3_BYTE, ORX2_ATT_D3_BIT, selectionBits[3]);
+	setStateBit(state, ORX2_ATT_D4_BYTE, ORX2_ATT_D4_BIT, selectionBits[4]);
+	setStateBit(state, ORX2_ATT_D5_BYTE, ORX2_ATT_D5_BIT, selectionBits[5]);
+	setStateBit(state, ORX2_ATT_D6_BYTE, ORX2_ATT_D6_BIT, selectionBits[6]);
+
+	// milans 221223
+	selection = cmbTX1_ATT->GetSelection();
+
+	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
+
+	for (int i = 0; selection > 0; i++)
+	{
+		selectionBits[i] = selection % 2;
+		selection = selection / 2;
+	}
+
+	setStateBit(state, TX1_ATT_D0_BYTE, TX1_ATT_D0_BIT, selectionBits[0]);
+	setStateBit(state, TX1_ATT_D1_BYTE, TX1_ATT_D1_BIT, selectionBits[1]);
+	setStateBit(state, TX1_ATT_D2_BYTE, TX1_ATT_D2_BIT, selectionBits[2]);
+	setStateBit(state, TX1_ATT_D3_BYTE, TX1_ATT_D3_BIT, selectionBits[3]);
+	setStateBit(state, TX1_ATT_D4_BYTE, TX1_ATT_D4_BIT, selectionBits[4]);
+	setStateBit(state, TX1_ATT_D5_BYTE, TX1_ATT_D5_BIT, selectionBits[5]);
+	setStateBit(state, TX1_ATT_D6_BYTE, TX1_ATT_D6_BIT, selectionBits[6]);
+
+	selection = cmbTX2_ATT->GetSelection();
+
+	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
+
+	for (int i = 0; selection > 0; i++)
+	{
+		selectionBits[i] = selection % 2;
+		selection = selection / 2;
+	}
+
+	setStateBit(state, TX2_ATT_D0_BYTE, TX2_ATT_D0_BIT, selectionBits[0]);
+	setStateBit(state, TX2_ATT_D1_BYTE, TX2_ATT_D1_BIT, selectionBits[1]);
+	setStateBit(state, TX2_ATT_D2_BYTE, TX2_ATT_D2_BIT, selectionBits[2]);
+	setStateBit(state, TX2_ATT_D3_BYTE, TX2_ATT_D3_BIT, selectionBits[3]);
+	setStateBit(state, TX2_ATT_D4_BYTE, TX2_ATT_D4_BIT, selectionBits[4]);
+	setStateBit(state, TX2_ATT_D5_BYTE, TX2_ATT_D5_BIT, selectionBits[5]);
+	setStateBit(state, TX2_ATT_D6_BYTE, TX2_ATT_D6_BIT, selectionBits[6]);
 
 	//	setStateBit(state, CHAIN_SIZE, MCU_BYTE_TXRX_1_BIT, cbTXRX_1->GetValue());
 	//	setStateBit(state, CHAIN_SIZE, MCU_BYTE_TXRX_2_BIT, cbTXRX_2->GetValue());
@@ -2284,7 +2394,8 @@ void LMS8FE_wxgui::OnbtnReadData(wxCommandEvent &event)
 	//	setStateBit(state, SC1905_1_SSENn_BYTE, SC1905_1_SSENn_BIT, cbSC1905_1_SSENn->GetValue());
 	cbSC1905_2_SSENn->SetValue(getStateBit(state, SC1905_2_SSENn_BYTE, SC1905_2_SSENn_BIT));
 	//	setStateBit(state, SC1905_2_SSENn_BYTE, SC1905_2_SSENn_BIT, cbSC1905_2_SSENn->GetValue());
-	cbGPIO_SEL_A_LMS8001->SetValue(getStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT));
+	// milans 221223
+	//	cbGPIO_SEL_A_LMS8001->SetValue(getStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT));
 	//	setStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT, cbGPIO_SEL_A_LMS8001->GetValue());
 	cbSC1905_1_RESETn->SetValue(getStateBit(state, SC1905_1_RESETn_BYTE, SC1905_1_RESETn_BIT));
 	//	setStateBit(state, SC1905_1_RESETn_BYTE, SC1905_1_RESETn_BIT, cbSC1905_1_RESETn->GetValue());
@@ -2298,26 +2409,37 @@ void LMS8FE_wxgui::OnbtnReadData(wxCommandEvent &event)
 	//	setStateBit(state, BYPASS_AMP2_BYTE, BYPASS_AMP2_BIT, cbBP_AMP2->GetValue());
 	cbSD_AMP2->SetValue(getStateBit(state, DISABLE_AMP2_BYTE, DISABLE_AMP2_BIT));
 	//	setStateBit(state, DISABLE_AMP2_BYTE, DISABLE_AMP2_BIT, cbSD_AMP2->GetValue());
-	cbPA1_A_EN->SetValue(getStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT));
+	// milans 221223
+	//	cbPA1_A_EN->SetValue(getStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT));
 	//	setStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT, cbPA1_A_EN->GetValue());
-	cbPA1_B_EN->SetValue(getStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT));
+	//	cbPA1_B_EN->SetValue(getStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT));
 	//	setStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT, cbPA1_B_EN->GetValue());
-	cbPA2_A_EN->SetValue(getStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT));
+	//	cbPA2_A_EN->SetValue(getStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT));
 	//	setStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT, cbPA2_A_EN->GetValue());
-	cbPA2_B_EN->SetValue(getStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT));
+	//	cbPA2_B_EN->SetValue(getStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT));
 	//	setStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT, cbPA2_B_EN->GetValue());
+	cbDA1_A_EN->SetValue(getStateBit(state, DA1_A_EN_BYTE, DA1_A_EN_BIT));
+	cbDA1_B_EN->SetValue(getStateBit(state, DA1_B_EN_BYTE, DA1_B_EN_BIT));
+	cbDA2_A_EN->SetValue(getStateBit(state, DA2_A_EN_BYTE, DA2_A_EN_BIT));
+	cbDA2_B_EN->SetValue(getStateBit(state, DA2_B_EN_BYTE, DA2_B_EN_BIT));
+
 	cbLNA1_EN->SetValue(getStateBit(state, LNA1_EN_BYTE, LNA1_EN_BIT));
 	//	setStateBit(state, LNA1_EN_BYTE, LNA1_EN_BIT, cbLNA1_EN->GetValue());
 	cbLNA2_EN->SetValue(getStateBit(state, LNA2_EN_BYTE, LNA2_EN_BIT));
 	//	setStateBit(state, LNA2_EN_BYTE, LNA2_EN_BIT, cbLNA2_EN->GetValue());
-	cbDA1_EN->SetValue(getStateBit(state, DA1_EN_BYTE, DA1_EN_BIT));
+	// milans 221223
+	//	cbDA1_EN->SetValue(getStateBit(state, DA1_EN_BYTE, DA1_EN_BIT));
 	//	setStateBit(state, DA1_EN_BYTE, DA1_EN_BIT, cbDA1_EN->GetValue());
-	cbDA2_EN->SetValue(getStateBit(state, DA2_EN_BYTE, DA2_EN_BIT));
+	//	cbDA2_EN->SetValue(getStateBit(state, DA2_EN_BYTE, DA2_EN_BIT));
 	//	setStateBit(state, DA2_EN_BYTE, DA2_EN_BIT, cbDA2_EN->GetValue());
-	cbPA1_A_B_CTRL->SetValue(getStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT));
+	//	cbPA1_A_B_CTRL->SetValue(getStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT));
 	//	setStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT, cbPA1_A_B_CTRL->GetValue());
-	cbPA2_A_B_CTRL->SetValue(getStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT));
+	//	cbPA2_A_B_CTRL->SetValue(getStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT));
 	//	setStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT, cbPA2_A_B_CTRL->GetValue());
+	cbPDA1_EN->SetValue(getStateBit(state, PDA1_EN_BYTE, PDA1_EN_BIT));
+	cbPDA2_EN->SetValue(getStateBit(state, PDA2_EN_BYTE, PDA2_EN_BIT));
+	cbDA1_A_B_CTRL->SetValue(getStateBit(state, DA1_A_B_CTRL_BYTE, DA1_A_B_CTRL_BIT));
+	cbDA2_A_B_CTRL->SetValue(getStateBit(state, DA2_A_B_CTRL_BYTE, DA2_A_B_CTRL_BIT));
 
 	int selection = 0;
 	//	int selectionBits[7];
@@ -2331,34 +2453,79 @@ void LMS8FE_wxgui::OnbtnReadData(wxCommandEvent &event)
 	//		selection = selection / 2;
 	//	}
 
-	selection += pow(2, 0) * getStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT);
+	// milans 221223
+	//	selection += pow(2, 0) * getStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT);
 	//	setStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT, selectionBits[0]);
-	selection += pow(2, 1) * getStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT);
+	//	selection += pow(2, 1) * getStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT);
 	//	setStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT, selectionBits[1]);
-	selection += pow(2, 2) * getStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT);
+	//	selection += pow(2, 2) * getStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT);
 	//	setStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT, selectionBits[2]);
-	selection += pow(2, 3) * getStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT);
+	//	selection += pow(2, 3) * getStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT);
 	//	setStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT, selectionBits[3]);
-	selection += pow(2, 4) * getStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT);
+	//	selection += pow(2, 4) * getStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT);
 	//	setStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT, selectionBits[4]);
-	selection += pow(2, 5) * getStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT);
+	//	selection += pow(2, 5) * getStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT);
 	//	setStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT, selectionBits[5]);
-	selection += pow(2, 6) * getStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT);
+	//	selection += pow(2, 6) * getStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT);
 	//	setStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT, selectionBits[6]);
+	selection += pow(2, 0) * getStateBit(state, ORX1_ATT_D0_BYTE, ORX1_ATT_D0_BIT);
+	selection += pow(2, 1) * getStateBit(state, ORX1_ATT_D1_BYTE, ORX1_ATT_D1_BIT);
+	selection += pow(2, 2) * getStateBit(state, ORX1_ATT_D2_BYTE, ORX1_ATT_D2_BIT);
+	selection += pow(2, 3) * getStateBit(state, ORX1_ATT_D3_BYTE, ORX1_ATT_D3_BIT);
+	selection += pow(2, 4) * getStateBit(state, ORX1_ATT_D4_BYTE, ORX1_ATT_D4_BIT);
+	selection += pow(2, 5) * getStateBit(state, ORX1_ATT_D5_BYTE, ORX1_ATT_D5_BIT);
+	selection += pow(2, 6) * getStateBit(state, ORX1_ATT_D6_BYTE, ORX1_ATT_D6_BIT);
 
-	cmbPA1_CPL->SetSelection(selection);
+	// milans 221223
+	//	cmbPA1_CPL->SetSelection(selection);
+	cmbORX1_ATT->SetSelection(selection);
 
 	selection = 0;
 
-	selection += pow(2, 0) * getStateBit(state, PA2_CPL_D0_BYTE, PA2_CPL_D0_BIT);
-	selection += pow(2, 1) * getStateBit(state, PA2_CPL_D1_BYTE, PA2_CPL_D1_BIT);
-	selection += pow(2, 2) * getStateBit(state, PA2_CPL_D2_BYTE, PA2_CPL_D2_BIT);
-	selection += pow(2, 3) * getStateBit(state, PA2_CPL_D3_BYTE, PA2_CPL_D3_BIT);
-	selection += pow(2, 4) * getStateBit(state, PA2_CPL_D4_BYTE, PA2_CPL_D4_BIT);
-	selection += pow(2, 5) * getStateBit(state, PA2_CPL_D5_BYTE, PA2_CPL_D5_BIT);
-	selection += pow(2, 6) * getStateBit(state, PA2_CPL_D6_BYTE, PA2_CPL_D6_BIT);
+	// milans 221223
+	//	selection += pow(2, 0) * getStateBit(state, PA2_CPL_D0_BYTE, PA2_CPL_D0_BIT);
+	//	selection += pow(2, 1) * getStateBit(state, PA2_CPL_D1_BYTE, PA2_CPL_D1_BIT);
+	//	selection += pow(2, 2) * getStateBit(state, PA2_CPL_D2_BYTE, PA2_CPL_D2_BIT);
+	//	selection += pow(2, 3) * getStateBit(state, PA2_CPL_D3_BYTE, PA2_CPL_D3_BIT);
+	//	selection += pow(2, 4) * getStateBit(state, PA2_CPL_D4_BYTE, PA2_CPL_D4_BIT);
+	//	selection += pow(2, 5) * getStateBit(state, PA2_CPL_D5_BYTE, PA2_CPL_D5_BIT);
+	//	selection += pow(2, 6) * getStateBit(state, PA2_CPL_D6_BYTE, PA2_CPL_D6_BIT);
+	selection += pow(2, 0) * getStateBit(state, ORX2_ATT_D0_BYTE, ORX2_ATT_D0_BIT);
+	selection += pow(2, 1) * getStateBit(state, ORX2_ATT_D1_BYTE, ORX2_ATT_D1_BIT);
+	selection += pow(2, 2) * getStateBit(state, ORX2_ATT_D2_BYTE, ORX2_ATT_D2_BIT);
+	selection += pow(2, 3) * getStateBit(state, ORX2_ATT_D3_BYTE, ORX2_ATT_D3_BIT);
+	selection += pow(2, 4) * getStateBit(state, ORX2_ATT_D4_BYTE, ORX2_ATT_D4_BIT);
+	selection += pow(2, 5) * getStateBit(state, ORX2_ATT_D5_BYTE, ORX2_ATT_D5_BIT);
+	selection += pow(2, 6) * getStateBit(state, ORX2_ATT_D6_BYTE, ORX2_ATT_D6_BIT);
 
-	cmbPA2_CPL->SetSelection(selection);
+	// milans 221223
+	//	cmbPA2_CPL->SetSelection(selection);
+	cmbORX2_ATT->SetSelection(selection);
+
+	selection = 0;
+
+	// milans 221223
+	selection += pow(2, 0) * getStateBit(state, TX1_ATT_D0_BYTE, TX1_ATT_D0_BIT);
+	selection += pow(2, 1) * getStateBit(state, TX1_ATT_D1_BYTE, TX1_ATT_D1_BIT);
+	selection += pow(2, 2) * getStateBit(state, TX1_ATT_D2_BYTE, TX1_ATT_D2_BIT);
+	selection += pow(2, 3) * getStateBit(state, TX1_ATT_D3_BYTE, TX1_ATT_D3_BIT);
+	selection += pow(2, 4) * getStateBit(state, TX1_ATT_D4_BYTE, TX1_ATT_D4_BIT);
+	selection += pow(2, 5) * getStateBit(state, TX1_ATT_D5_BYTE, TX1_ATT_D5_BIT);
+	selection += pow(2, 6) * getStateBit(state, TX1_ATT_D6_BYTE, TX1_ATT_D6_BIT);
+
+	cmbTX1_ATT->SetSelection(selection);
+
+	selection = 0;
+
+	selection += pow(2, 0) * getStateBit(state, TX2_ATT_D0_BYTE, TX2_ATT_D0_BIT);
+	selection += pow(2, 1) * getStateBit(state, TX2_ATT_D1_BYTE, TX2_ATT_D1_BIT);
+	selection += pow(2, 2) * getStateBit(state, TX2_ATT_D2_BYTE, TX2_ATT_D2_BIT);
+	selection += pow(2, 3) * getStateBit(state, TX2_ATT_D3_BYTE, TX2_ATT_D3_BIT);
+	selection += pow(2, 4) * getStateBit(state, TX2_ATT_D4_BYTE, TX2_ATT_D4_BIT);
+	selection += pow(2, 5) * getStateBit(state, TX2_ATT_D5_BYTE, TX2_ATT_D5_BIT);
+	selection += pow(2, 6) * getStateBit(state, TX2_ATT_D6_BYTE, TX2_ATT_D6_BIT);
+
+	cmbTX2_ATT->SetSelection(selection);
 
 	cbTXRX_1->SetValue(getStateBit(state, MCU_BYTE, MCU_TXRX_1_BIT));
 	//	setStateBit(state, CHAIN_SIZE, MCU_BYTE_TXRX_1_BIT, cbTXRX_1->GetValue());
@@ -2401,20 +2568,41 @@ void LMS8FE_wxgui::Simple2Detailed()
 	case 0:
 		cbBP_AMP1->SetValue(cbBP_AMPX->GetValue());
 		cbSD_AMP1->SetValue(cbSD_AMPX->GetValue());
-		cbDA1_EN->SetValue(cbDAX_EN->GetValue());
+		// milans 221223
+		//		cbDA1_EN->SetValue(cbDAX_EN->GetValue());
+		cbPDA1_EN->SetValue(cbPDAX_EN->GetValue());
+
 		cbLNA1_EN->SetValue(cbLNAX_EN->GetValue());
-		cmbPA1_CPL->SetSelection(cmbPAX_CPL->GetSelection());
-		if (cbPAX_A_B_CTRL->GetValue() == 1)
+		// milans 221223
+		//		cmbPA1_CPL->SetSelection(cmbPAX_CPL->GetSelection());
+		//		if (cbPAX_A_B_CTRL->GetValue() == 1)
+		//		{ // Channel A
+		//			cbPA1_A_EN->SetValue(cbLNAX_EN->GetValue());
+		//			cbPA1_B_EN->SetValue(false);
+		//		}
+		//		else
+		//		{
+		//			cbPA1_A_EN->SetValue(false);
+		//			cbPA1_B_EN->SetValue(cbLNAX_EN->GetValue());
+		//		}
+		//		cbPA1_A_B_CTRL->SetValue(cbPAX_A_B_CTRL->GetValue());
+		cmbORX1_ATT->SetSelection(cmbORXX_ATT->GetSelection());
+
+		// milans 221223
+		cmbTX1_ATT->SetSelection(cmbTXX_ATT->GetSelection());
+
+		if (cbDAX_A_B_CTRL->GetValue() == 1)
 		{ // Channel A
-			cbPA1_A_EN->SetValue(cbLNAX_EN->GetValue());
-			cbPA1_B_EN->SetValue(false);
+			cbDA1_A_EN->SetValue(cbDAX_X_EN->GetValue());
+			cbDA1_B_EN->SetValue(false);
 		}
 		else
 		{
-			cbPA1_A_EN->SetValue(false);
-			cbPA1_B_EN->SetValue(cbLNAX_EN->GetValue());
+			cbDA1_A_EN->SetValue(false);
+			cbDA1_B_EN->SetValue(cbDAX_X_EN->GetValue());
 		}
-		cbPA1_A_B_CTRL->SetValue(cbPAX_A_B_CTRL->GetValue());
+		cbDA1_A_B_CTRL->SetValue(cbDAX_A_B_CTRL->GetValue());
+
 		cbTXRX_1->SetValue(cbTXRX_X->GetValue());
 		cbSC1905_1_RESETn->SetValue(cbSC1905_X_RESETn->GetValue());
 		cbLMS8001_1_RESETn->SetValue(cbLMS8001_X_RESETn->GetValue());
@@ -2423,20 +2611,42 @@ void LMS8FE_wxgui::Simple2Detailed()
 	case 1:
 		cbBP_AMP2->SetValue(cbBP_AMPX->GetValue());
 		cbSD_AMP2->SetValue(cbSD_AMPX->GetValue());
-		cbDA2_EN->SetValue(cbDAX_EN->GetValue());
+		// milans 221223
+		//		cbDA2_EN->SetValue(cbDAX_EN->GetValue());
+		cbPDA2_EN->SetValue(cbPDAX_EN->GetValue());
+
 		cbLNA2_EN->SetValue(cbLNAX_EN->GetValue());
-		cmbPA2_CPL->SetSelection(cmbPAX_CPL->GetSelection());
-		if (cbPAX_A_B_CTRL->GetValue() == 1)
+		// milans 221223
+		//		cmbPA2_CPL->SetSelection(cmbPAX_CPL->GetSelection());
+		//		if (cbPAX_A_B_CTRL->GetValue() == 1)
+		//		{ // Channel A
+		//			cbPA2_A_EN->SetValue(cbLNAX_EN->GetValue());
+		//			cbPA2_B_EN->SetValue(false);
+		//		}
+		//		else
+		//		{
+		//			cbPA2_A_EN->SetValue(false);
+		//			cbPA2_B_EN->SetValue(cbLNAX_EN->GetValue());
+		//		}
+		//		cbPA2_A_B_CTRL->SetValue(cbPAX_A_B_CTRL->GetValue());
+
+		cmbORX2_ATT->SetSelection(cmbORXX_ATT->GetSelection());
+
+		// milans 221223
+		cmbTX2_ATT->SetSelection(cmbTXX_ATT->GetSelection());
+
+		if (cbDAX_A_B_CTRL->GetValue() == 1)
 		{ // Channel A
-			cbPA2_A_EN->SetValue(cbLNAX_EN->GetValue());
-			cbPA2_B_EN->SetValue(false);
+			cbDA2_A_EN->SetValue(cbDAX_X_EN->GetValue());
+			cbDA2_B_EN->SetValue(false);
 		}
 		else
 		{
-			cbPA2_A_EN->SetValue(false);
-			cbPA2_B_EN->SetValue(cbLNAX_EN->GetValue());
+			cbDA2_A_EN->SetValue(false);
+			cbDA2_B_EN->SetValue(cbDAX_X_EN->GetValue());
 		}
-		cbPA2_A_B_CTRL->SetValue(cbPAX_A_B_CTRL->GetValue());
+		cbDA2_A_B_CTRL->SetValue(cbDAX_A_B_CTRL->GetValue());
+
 		cbTXRX_2->SetValue(cbTXRX_X->GetValue());
 		cbSC1905_2_RESETn->SetValue(cbSC1905_X_RESETn->GetValue());
 		cbLMS8001_2_RESETn->SetValue(cbLMS8001_X_RESETn->GetValue());
@@ -2461,18 +2671,33 @@ void LMS8FE_wxgui::Detailed2Simple()
 	case 0:
 		cbBP_AMPX->SetValue(cbBP_AMP1->GetValue());
 		cbSD_AMPX->SetValue(cbSD_AMP1->GetValue());
-		cbDAX_EN->SetValue(cbDA1_EN->GetValue());
+	// milans 221223
+		//		cbDAX_EN->SetValue(cbDA1_EN->GetValue());
+		cbPDAX_EN->SetValue(cbPDA1_EN->GetValue());
 		cbLNAX_EN->SetValue(cbLNA1_EN->GetValue());
-		cmbPAX_CPL->SetSelection(cmbPA1_CPL->GetSelection());
-		cbPAX_A_B_CTRL->SetValue(cbPA1_A_B_CTRL->GetValue());
+		// milans 221223
+		//		cmbPAX_CPL->SetSelection(cmbPA1_CPL->GetSelection());
+		//		cbPAX_A_B_CTRL->SetValue(cbPA1_A_B_CTRL->GetValue());
+		cmbORXX_ATT->SetSelection(cmbORX1_ATT->GetSelection());
+		cbDAX_A_B_CTRL->SetValue(cbDA1_A_B_CTRL->GetValue());
+
+		// milans 221223
+		cmbTXX_ATT->SetSelection(cmbTX1_ATT->GetSelection());
+
 		cbTXRX_X->SetValue(cbTXRX_1->GetValue());
-		if (cbPA1_A_B_CTRL->GetValue() == 1)
-		{ // Channel A
-			cbLNAX_EN->SetValue(cbPA1_A_EN->GetValue());
+		// milans 221223
+		//		if (cbPA1_A_B_CTRL->GetValue() == 1)
+		if (cbDA1_A_B_CTRL->GetValue() == 1)
+		{	// Channel A
+			// milans 22123
+			//			cbLNAX_EN->SetValue(cbPA1_A_EN->GetValue());
+			cbDAX_X_EN->SetValue(cbDA1_A_EN->GetValue());
 		}
 		else
 		{
-			cbLNAX_EN->SetValue(cbPA1_B_EN->GetValue());
+			// milans 22123
+			//			cbLNAX_EN->SetValue(cbPA1_B_EN->GetValue());
+			cbDAX_X_EN->SetValue(cbDA1_B_EN->GetValue());
 		}
 		cbSC1905_X_RESETn->SetValue(cbSC1905_1_RESETn->GetValue());
 		cbLMS8001_X_RESETn->SetValue(cbLMS8001_1_RESETn->GetValue());
@@ -2481,18 +2706,34 @@ void LMS8FE_wxgui::Detailed2Simple()
 	case 1:
 		cbBP_AMPX->SetValue(cbBP_AMP2->GetValue());
 		cbSD_AMPX->SetValue(cbSD_AMP2->GetValue());
-		cbDAX_EN->SetValue(cbDA2_EN->GetValue());
+		// milans 221223
+		//		cbDAX_EN->SetValue(cbDA2_EN->GetValue());
+		cbPDAX_EN->SetValue(cbPDA2_EN->GetValue());
+
 		cbLNAX_EN->SetValue(cbLNA2_EN->GetValue());
-		cmbPAX_CPL->SetSelection(cmbPA2_CPL->GetSelection());
-		cbPAX_A_B_CTRL->SetValue(cbPA2_A_B_CTRL->GetValue());
+		// milans 221223
+		//		cmbPAX_CPL->SetSelection(cmbPA2_CPL->GetSelection());
+		//		cbPAX_A_B_CTRL->SetValue(cbPA2_A_B_CTRL->GetValue());
+		cmbORXX_ATT->SetSelection(cmbORX2_ATT->GetSelection());
+		cbDAX_A_B_CTRL->SetValue(cbDA2_A_B_CTRL->GetValue());
+
+		// milans
+		cmbTXX_ATT->SetSelection(cmbTX2_ATT->GetSelection());
+
 		cbTXRX_X->SetValue(cbTXRX_2->GetValue());
-		if (cbPA2_A_B_CTRL->GetValue() == 1)
-		{ // Channel A
-			cbLNAX_EN->SetValue(cbPA2_A_EN->GetValue());
+		// milans 221223
+		//		if (cbPA2_A_B_CTRL->GetValue() == 1)
+		if (cbDA2_A_B_CTRL->GetValue() == 1)
+		{	// Channel A
+			// milans 221223
+			//			cbLNAX_EN->SetValue(cbPA2_A_EN->GetValue());
+			cbDAX_X_EN->SetValue(cbDA2_A_EN->GetValue());
 		}
 		else
 		{
-			cbLNAX_EN->SetValue(cbPA2_B_EN->GetValue());
+			// milans 221223
+			//			cbLNAX_EN->SetValue(cbPA2_B_EN->GetValue());
+			cbDAX_X_EN->SetValue(cbDA2_B_EN->GetValue());
 		}
 		cbSC1905_X_RESETn->SetValue(cbSC1905_2_RESETn->GetValue());
 		cbLMS8001_X_RESETn->SetValue(cbLMS8001_2_RESETn->GetValue());
@@ -2530,7 +2771,7 @@ void LMS8FE_wxgui::OnbtnWRITESPI(wxCommandEvent &event)
 		for (int i = 0; i <= 63; i++)
 			c[i] = 100 + i;
 		LMS8FE_SPI_write_buffer(lms8fe, c, 64);
-	}	
+	}
 }
 void LMS8FE_wxgui::OnbtnREADSPI(wxCommandEvent &event)
 {
@@ -2562,5 +2803,4 @@ void LMS8FE_wxgui::OnbtnREADSPI(wxCommandEvent &event)
 			AddMssg(mssg);
 		}
 	}
-
 }

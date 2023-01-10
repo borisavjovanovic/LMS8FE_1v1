@@ -55,15 +55,19 @@ int main(int argc, char** argv)
 	lms8fe_boardState state;
 	int result;	
 	result = LMS8FE_GetState(lms8fe, &state);
-	printf("state.DA1_EN = %d\n", state.DA1_EN);
-
-	state.DA1_EN = 1;
+//milans 221223
+//	printf("state.DA1_EN = %d\n", state.DA1_EN);
+//	state.DA1_EN = 1;
+	printf("state.PDA1_EN = %d\n", state.PDA1_EN);
+	state.PDA1_EN = 1;
 
 	result = LMS8FE_SetState(lms8fe, state);
 
 	result = LMS8FE_GetState(lms8fe, &state);
-	printf("state.DA1_EN = %d\n", state.DA1_EN);
-
+//milans 221223
+//	printf("state.DA1_EN = %d\n", state.DA1_EN);
+	printf("state.PDA1_EN = %d\n", state.PDA1_EN);
+	
 	//Close port
 	LMS8FE_Close(lms8fe);
 

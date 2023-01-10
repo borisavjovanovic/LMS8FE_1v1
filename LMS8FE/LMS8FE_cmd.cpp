@@ -2,10 +2,9 @@
 #include "INI.h"
 #include <chrono>
 
-
 // B.J. commented 24.11.2022
 // remove comment when SPI connection is used
-///#include "lime/lms7_device.h"
+/// #include "lime/lms7_device.h"
 
 #include <iostream>
 
@@ -392,25 +391,44 @@ int Lms8fe_ReadConfig(const char *filename, lms8fe_boardState *stateBoard)
 	stateBoard->LMS8001_2_RESETn = parser.get("LMS8001_2_RESETn", 0);
 	stateBoard->SC1905_1_SSENn = parser.get("SC1905_1_SSENn", 0);
 	stateBoard->SC1905_2_SSENn = parser.get("SC1905_2_SSENn", 0);
-	stateBoard->GPIO_SEL_A_LMS8001 = parser.get("GPIO_SEL_A_LMS8001", 0);
+	// milans 221223
+	//	stateBoard->GPIO_SEL_A_LMS8001 = parser.get("GPIO_SEL_A_LMS8001", 0);
 	stateBoard->SC1905_1_RESETn = parser.get("SC1905_1_RESETn", 0);
 	stateBoard->SC1905_2_RESETn = parser.get("SC1905_2_RESETn", 0);
 	stateBoard->BP_AMP1 = parser.get("BP_AMP1", 0);
 	stateBoard->SD_AMP1 = parser.get("SD_AMP1", 0);
 	stateBoard->BP_AMP2 = parser.get("BP_AMP2", 0);
 	stateBoard->SD_AMP2 = parser.get("SD_AMP2", 0);
-	stateBoard->PA1_A_EN = parser.get("PA1_A_EN", 0);
-	stateBoard->PA1_B_EN = parser.get("PA1_B_EN", 0);
-	stateBoard->PA2_A_EN = parser.get("PA2_A_EN", 0);
-	stateBoard->PA2_B_EN = parser.get("PA2_B_EN", 0);
+	// milans 221223
+	//	stateBoard->PA1_A_EN = parser.get("PA1_A_EN", 0);
+	//	stateBoard->PA1_B_EN = parser.get("PA1_B_EN", 0);
+	//	stateBoard->PA2_A_EN = parser.get("PA2_A_EN", 0);
+	//	stateBoard->PA2_B_EN = parser.get("PA2_B_EN", 0);
+	stateBoard->DA1_A_EN = parser.get("DA1_A_EN", 0);
+	stateBoard->DA1_B_EN = parser.get("DA1_B_EN", 0);
+	stateBoard->DA2_A_EN = parser.get("DA2_A_EN", 0);
+	stateBoard->DA2_B_EN = parser.get("DA2_B_EN", 0);
+
 	stateBoard->LNA1_EN = parser.get("LNA1_EN", 0);
 	stateBoard->LNA2_EN = parser.get("LNA2_EN", 0);
-	stateBoard->DA1_EN = parser.get("DA1_EN", 0);
-	stateBoard->DA2_EN = parser.get("DA2_EN", 0);
-	stateBoard->PA1_A_B_CTRL = parser.get("PA1_A_B_CTRL", 0);
-	stateBoard->PA2_A_B_CTRL = parser.get("PA2_A_B_CTRL", 0);
-	stateBoard->PA1_CPL_ATT = parser.get("PA1_CPL_ATT", 0);
-	stateBoard->PA2_CPL_ATT = parser.get("PA2_CPL_ATT", 0);
+	// milans 221223
+	//	stateBoard->DA1_EN = parser.get("DA1_EN", 0);
+	//	stateBoard->DA2_EN = parser.get("DA2_EN", 0);
+	//	stateBoard->PA1_A_B_CTRL = parser.get("PA1_A_B_CTRL", 0);
+	//	stateBoard->PA2_A_B_CTRL = parser.get("PA2_A_B_CTRL", 0);
+	//	stateBoard->PA1_CPL_ATT = parser.get("PA1_CPL_ATT", 0);
+	//	stateBoard->PA2_CPL_ATT = parser.get("PA2_CPL_ATT", 0);
+	stateBoard->PDA1_EN = parser.get("PDA1_EN", 0);
+	stateBoard->PDA2_EN = parser.get("PDA2_EN", 0);
+	stateBoard->DA1_A_B_CTRL = parser.get("DA1_A_B_CTRL", 0);
+	stateBoard->DA2_A_B_CTRL = parser.get("DA2_A_B_CTRL", 0);
+	stateBoard->ORX1_ATT = parser.get("ORX1_ATT", 0);
+	stateBoard->ORX2_ATT = parser.get("ORX2_ATT", 0);
+
+	// milans 221223
+	stateBoard->TX1_ATT = parser.get("TX1_ATT", 0);
+	stateBoard->TX2_ATT = parser.get("TX2_ATT", 0);
+
 	stateBoard->TXRX_1 = parser.get("TXRX_1", 0);
 	stateBoard->TXRX_2 = parser.get("TXRX_2", 0);
 
@@ -440,25 +458,44 @@ int Lms8fe_SaveConfig(const char *filename, lms8fe_boardState state)
 	fprintf(fout, "LMS8001_2_RESETn=%d\n", state.LMS8001_2_RESETn);
 	fprintf(fout, "SC1905_1_SSENn=%d\n", state.SC1905_1_SSENn);
 	fprintf(fout, "SC1905_2_SSENn=%d\n", state.SC1905_2_SSENn);
-	fprintf(fout, "GPIO_SEL_A_LMS8001=%d\n", state.GPIO_SEL_A_LMS8001);
+	// milans 22123
+	//	fprintf(fout, "GPIO_SEL_A_LMS8001=%d\n", state.GPIO_SEL_A_LMS8001);	
 	fprintf(fout, "SC1905_1_RESETn=%d\n", state.SC1905_1_RESETn);
 	fprintf(fout, "SC1905_2_RESETn=%d\n", state.SC1905_2_RESETn);
 	fprintf(fout, "BP_AMP1=%d\n", state.BP_AMP1);
 	fprintf(fout, "SD_AMP1=%d\n", state.SD_AMP1);
 	fprintf(fout, "BP_AMP2=%d\n", state.BP_AMP2);
 	fprintf(fout, "SD_AMP2=%d\n", state.SD_AMP2);
-	fprintf(fout, "PA1_A_EN=%d\n", state.PA1_A_EN);
-	fprintf(fout, "PA1_B_EN=%d\n", state.PA1_B_EN);
-	fprintf(fout, "PA2_A_EN=%d\n", state.PA2_A_EN);
-	fprintf(fout, "PA2_B_EN=%d\n", state.PA2_B_EN);
+	// milans 22123
+	//	fprintf(fout, "PA1_A_EN=%d\n", state.PA1_A_EN);
+	//	fprintf(fout, "PA1_B_EN=%d\n", state.PA1_B_EN);
+	//	fprintf(fout, "PA2_A_EN=%d\n", state.PA2_A_EN);
+	//	fprintf(fout, "PA2_B_EN=%d\n", state.PA2_B_EN);
+	fprintf(fout, "DA1_A_EN=%d\n", state.DA1_A_EN);
+	fprintf(fout, "DA1_B_EN=%d\n", state.DA1_B_EN);
+	fprintf(fout, "DA2_A_EN=%d\n", state.DA2_A_EN);
+	fprintf(fout, "DA2_B_EN=%d\n", state.DA2_B_EN);
+
 	fprintf(fout, "LNA1_EN=%d\n", state.LNA1_EN);
 	fprintf(fout, "LNA2_EN=%d\n", state.LNA2_EN);
-	fprintf(fout, "DA1_EN=%d\n", state.DA1_EN);
-	fprintf(fout, "DA2_EN=%d\n", state.DA2_EN);
-	fprintf(fout, "PA1_A_B_CTRL=%d\n", state.PA1_A_B_CTRL);
-	fprintf(fout, "PA2_A_B_CTRL=%d\n", state.PA2_A_B_CTRL);
-	fprintf(fout, "PA1_CPL_ATT=%d\n", state.PA1_CPL_ATT);
-	fprintf(fout, "PA2_CPL_ATT=%d\n", state.PA2_CPL_ATT);
+	// milans 221223
+	//	fprintf(fout, "DA1_EN=%d\n", state.DA1_EN);
+	//	fprintf(fout, "DA2_EN=%d\n", state.DA2_EN);
+	//	fprintf(fout, "PA1_A_B_CTRL=%d\n", state.PA1_A_B_CTRL);
+	//	fprintf(fout, "PA2_A_B_CTRL=%d\n", state.PA2_A_B_CTRL);
+	//	fprintf(fout, "PA1_CPL_ATT=%d\n", state.PA1_CPL_ATT);
+	//	fprintf(fout, "PA2_CPL_ATT=%d\n", state.PA2_CPL_ATT);
+	fprintf(fout, "PDA1_EN=%d\n", state.PDA1_EN);
+	fprintf(fout, "PDA2_EN=%d\n", state.PDA2_EN);
+	fprintf(fout, "DA1_A_B_CTRL=%d\n", state.DA1_A_B_CTRL);
+	fprintf(fout, "DA2_A_B_CTRL=%d\n", state.DA2_A_B_CTRL);
+	fprintf(fout, "ORX1_ATT=%d\n", state.ORX1_ATT);
+	fprintf(fout, "ORX2_ATT=%d\n", state.ORX2_ATT);
+
+	// milans 221223
+	fprintf(fout, "TX1_ATT=%d\n", state.TX1_ATT);
+	fprintf(fout, "TX2_ATT=%d\n", state.TX2_ATT);
+
 	fprintf(fout, "TXRX_1=%d\n", state.TXRX_1);
 	fprintf(fout, "TXRX_2=%d\n", state.TXRX_2);
 
@@ -499,41 +536,71 @@ int Lms8fe_Cmd_GetConfig(lms_device_t *dev, LMS8FE_COM com, lms8fe_boardState *b
 	boardState->LMS8001_2_RESETn = getStateBit(state, LMS8001_2_RESETn_BYTE, LMS8001_2_RESETn_BIT);
 	boardState->SC1905_1_SSENn = getStateBit(state, SC1905_1_SSENn_BYTE, SC1905_1_SSENn_BIT);
 	boardState->SC1905_2_SSENn = getStateBit(state, SC1905_2_SSENn_BYTE, SC1905_2_SSENn_BIT);
-	boardState->GPIO_SEL_A_LMS8001 = getStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT);
+	// milans 221223
+	//	boardState->GPIO_SEL_A_LMS8001 = getStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT);
 	boardState->SC1905_1_RESETn = getStateBit(state, SC1905_1_RESETn_BYTE, SC1905_1_RESETn_BIT);
 	boardState->SC1905_2_RESETn = getStateBit(state, SC1905_2_RESETn_BYTE, SC1905_2_RESETn_BIT);
 	boardState->BP_AMP1 = getStateBit(state, BYPASS_AMP1_BYTE, BYPASS_AMP1_BIT);
 	boardState->SD_AMP1 = getStateBit(state, DISABLE_AMP1_BYTE, DISABLE_AMP1_BIT);
 	boardState->BP_AMP2 = getStateBit(state, BYPASS_AMP2_BYTE, BYPASS_AMP2_BIT);
 	boardState->SD_AMP2 = getStateBit(state, DISABLE_AMP2_BYTE, DISABLE_AMP2_BIT);
-	boardState->PA1_A_EN = getStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT);
-	boardState->PA1_B_EN = getStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT);
-	boardState->PA2_A_EN = getStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT);
-	boardState->PA2_B_EN = getStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT);
+	// milans 22123
+	//	boardState->PA1_A_EN = getStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT);
+	//	boardState->PA1_B_EN = getStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT);
+	//	boardState->PA2_A_EN = getStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT);
+	//	boardState->PA2_B_EN = getStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT);
+	boardState->DA1_A_EN = getStateBit(state, DA1_A_EN_BYTE, DA1_A_EN_BIT);
+	boardState->DA1_B_EN = getStateBit(state, DA1_B_EN_BYTE, DA1_B_EN_BIT);
+	boardState->DA2_A_EN = getStateBit(state, DA2_A_EN_BYTE, DA2_A_EN_BIT);
+	boardState->DA2_B_EN = getStateBit(state, DA2_B_EN_BYTE, DA2_B_EN_BIT);
+
 	boardState->LNA1_EN = getStateBit(state, LNA1_EN_BYTE, LNA1_EN_BIT);
 	boardState->LNA2_EN = getStateBit(state, LNA2_EN_BYTE, LNA2_EN_BIT);
-	boardState->DA1_EN = getStateBit(state, DA1_EN_BYTE, DA1_EN_BIT);
-	boardState->DA2_EN = getStateBit(state, DA2_EN_BYTE, DA2_EN_BIT);
-	boardState->PA1_A_B_CTRL = getStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT);
-	boardState->PA2_A_B_CTRL = getStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT);
+	// milans 221223
+	//	boardState->DA1_EN = getStateBit(state, DA1_EN_BYTE, DA1_EN_BIT);
+	//	boardState->DA2_EN = getStateBit(state, DA2_EN_BYTE, DA2_EN_BIT);
+	//	boardState->PA1_A_B_CTRL = getStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT);
+	//	boardState->PA2_A_B_CTRL = getStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT);
+	boardState->PDA1_EN = getStateBit(state, PDA1_EN_BYTE, PDA1_EN_BIT);
+	boardState->PDA2_EN = getStateBit(state, PDA2_EN_BYTE, PDA2_EN_BIT);
+	boardState->DA1_A_B_CTRL = getStateBit(state, DA1_A_B_CTRL_BYTE, DA1_A_B_CTRL_BIT);
+	boardState->DA2_A_B_CTRL = getStateBit(state, DA2_A_B_CTRL_BYTE, DA2_A_B_CTRL_BIT);
 
-	boardState->PA1_CPL_ATT =
-		pow(2, 0) * getStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT) +
-		pow(2, 1) * getStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT) +
-		pow(2, 2) * getStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT) +
-		pow(2, 3) * getStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT) +
-		pow(2, 4) * getStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT) +
-		pow(2, 5) * getStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT) +
-		pow(2, 6) * getStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT);
+	// milans 221223
+	//	boardState->PA1_CPL_ATT =
+	boardState->ORX1_ATT =
+		//		pow(2, 0) * getStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT) +
+		//		pow(2, 1) * getStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT) +
+		//		pow(2, 2) * getStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT) +
+		//		pow(2, 3) * getStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT) +
+		//		pow(2, 4) * getStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT) +
+		//		pow(2, 5) * getStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT) +
+		//		pow(2, 6) * getStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT);
+		pow(2, 0) * getStateBit(state, ORX1_ATT_D0_BYTE, ORX1_ATT_D0_BIT) +
+		pow(2, 1) * getStateBit(state, ORX1_ATT_D1_BYTE, ORX1_ATT_D1_BIT) +
+		pow(2, 2) * getStateBit(state, ORX1_ATT_D2_BYTE, ORX1_ATT_D2_BIT) +
+		pow(2, 3) * getStateBit(state, ORX1_ATT_D3_BYTE, ORX1_ATT_D3_BIT) +
+		pow(2, 4) * getStateBit(state, ORX1_ATT_D4_BYTE, ORX1_ATT_D4_BIT) +
+		pow(2, 5) * getStateBit(state, ORX1_ATT_D5_BYTE, ORX1_ATT_D5_BIT) +
+		pow(2, 6) * getStateBit(state, ORX1_ATT_D6_BYTE, ORX1_ATT_D6_BIT);
 
-	boardState->PA2_CPL_ATT =
-		pow(2, 0) * getStateBit(state, PA2_CPL_D0_BYTE, PA2_CPL_D0_BIT) +
-		pow(2, 1) * getStateBit(state, PA2_CPL_D1_BYTE, PA2_CPL_D1_BIT) +
-		pow(2, 2) * getStateBit(state, PA2_CPL_D2_BYTE, PA2_CPL_D2_BIT) +
-		pow(2, 3) * getStateBit(state, PA2_CPL_D3_BYTE, PA2_CPL_D3_BIT) +
-		pow(2, 4) * getStateBit(state, PA2_CPL_D4_BYTE, PA2_CPL_D4_BIT) +
-		pow(2, 5) * getStateBit(state, PA2_CPL_D5_BYTE, PA2_CPL_D5_BIT) +
-		pow(2, 6) * getStateBit(state, PA2_CPL_D6_BYTE, PA2_CPL_D6_BIT);
+	// milans 221223
+	//	boardState->PA2_CPL_ATT =
+	boardState->ORX2_ATT =
+		//		pow(2, 0) * getStateBit(state, PA2_CPL_D0_BYTE, PA2_CPL_D0_BIT) +
+		//		pow(2, 1) * getStateBit(state, PA2_CPL_D1_BYTE, PA2_CPL_D1_BIT) +
+		//		pow(2, 2) * getStateBit(state, PA2_CPL_D2_BYTE, PA2_CPL_D2_BIT) +
+		//		pow(2, 3) * getStateBit(state, PA2_CPL_D3_BYTE, PA2_CPL_D3_BIT) +
+		//		pow(2, 4) * getStateBit(state, PA2_CPL_D4_BYTE, PA2_CPL_D4_BIT) +
+		//		pow(2, 5) * getStateBit(state, PA2_CPL_D5_BYTE, PA2_CPL_D5_BIT) +
+		//		pow(2, 6) * getStateBit(state, PA2_CPL_D6_BYTE, PA2_CPL_D6_BIT);
+		pow(2, 0) * getStateBit(state, ORX2_ATT_D0_BYTE, ORX2_ATT_D0_BIT) +
+		pow(2, 1) * getStateBit(state, ORX2_ATT_D1_BYTE, ORX2_ATT_D1_BIT) +
+		pow(2, 2) * getStateBit(state, ORX2_ATT_D2_BYTE, ORX2_ATT_D2_BIT) +
+		pow(2, 3) * getStateBit(state, ORX2_ATT_D3_BYTE, ORX2_ATT_D3_BIT) +
+		pow(2, 4) * getStateBit(state, ORX2_ATT_D4_BYTE, ORX2_ATT_D4_BIT) +
+		pow(2, 5) * getStateBit(state, ORX2_ATT_D5_BYTE, ORX2_ATT_D5_BIT) +
+		pow(2, 6) * getStateBit(state, ORX2_ATT_D6_BYTE, ORX2_ATT_D6_BIT);
 
 	boardState->TXRX_1 = getStateBit(state, MCU_BYTE, MCU_TXRX_1_BIT);
 	boardState->TXRX_2 = getStateBit(state, MCU_BYTE, MCU_TXRX_2_BIT);
@@ -706,29 +773,43 @@ int Lms8fe_Cmd_Configure(lms_device_t *dev, LMS8FE_COM com, lms8fe_boardState bo
 	setStateBit(state, LMS8001_2_RESETn_BYTE, LMS8001_2_RESETn_BIT, boardState.LMS8001_2_RESETn);
 	setStateBit(state, SC1905_1_SSENn_BYTE, SC1905_1_SSENn_BIT, boardState.SC1905_1_SSENn);
 	setStateBit(state, SC1905_2_SSENn_BYTE, SC1905_2_SSENn_BIT, boardState.SC1905_2_SSENn);
-	setStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT, boardState.GPIO_SEL_A_LMS8001);
+	// milans 221223
+	//	setStateBit(state, GPIO_SEL_A_LMS8001_BYTE, GPIO_SEL_A_LMS8001_BIT, boardState.GPIO_SEL_A_LMS8001);
 	setStateBit(state, SC1905_1_RESETn_BYTE, SC1905_1_RESETn_BIT, boardState.SC1905_1_RESETn);
 	setStateBit(state, SC1905_2_RESETn_BYTE, SC1905_2_RESETn_BIT, boardState.SC1905_2_RESETn);
 	setStateBit(state, BYPASS_AMP1_BYTE, BYPASS_AMP1_BIT, boardState.BP_AMP1);
 	setStateBit(state, DISABLE_AMP1_BYTE, DISABLE_AMP1_BIT, boardState.SD_AMP1);
 	setStateBit(state, BYPASS_AMP2_BYTE, BYPASS_AMP2_BIT, boardState.BP_AMP2);
 	setStateBit(state, DISABLE_AMP2_BYTE, DISABLE_AMP2_BIT, boardState.SD_AMP2);
-	setStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT, boardState.PA1_A_EN);
-	setStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT, boardState.PA1_B_EN);
-	setStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT, boardState.PA2_A_EN);
-	setStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT, boardState.PA2_B_EN);
+	// milans 221223
+	//	setStateBit(state, PA1_A_EN_BYTE, PA1_A_EN_BIT, boardState.PA1_A_EN);
+	//	setStateBit(state, PA1_B_EN_BYTE, PA1_B_EN_BIT, boardState.PA1_B_EN);
+	//	setStateBit(state, PA2_A_EN_BYTE, PA2_A_EN_BIT, boardState.PA2_A_EN);
+	//	setStateBit(state, PA2_B_EN_BYTE, PA2_B_EN_BIT, boardState.PA2_B_EN);
+	setStateBit(state, DA1_A_EN_BYTE, DA1_A_EN_BIT, boardState.DA1_A_EN);
+	setStateBit(state, DA1_B_EN_BYTE, DA1_B_EN_BIT, boardState.DA1_B_EN);
+	setStateBit(state, DA2_A_EN_BYTE, DA2_A_EN_BIT, boardState.DA2_A_EN);
+	setStateBit(state, DA2_B_EN_BYTE, DA2_B_EN_BIT, boardState.DA2_B_EN);
+
 	setStateBit(state, LNA1_EN_BYTE, LNA1_EN_BIT, boardState.LNA1_EN);
 	setStateBit(state, LNA2_EN_BYTE, LNA2_EN_BIT, boardState.LNA2_EN);
-	setStateBit(state, DA1_EN_BYTE, DA1_EN_BIT, boardState.DA1_EN);
-	setStateBit(state, DA2_EN_BYTE, DA2_EN_BIT, boardState.DA2_EN);
-	setStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT, boardState.PA1_A_B_CTRL);
-	setStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT, boardState.PA2_A_B_CTRL);
+	// milans 221223
+	//	setStateBit(state, DA1_EN_BYTE, DA1_EN_BIT, boardState.DA1_EN);
+	//	setStateBit(state, DA2_EN_BYTE, DA2_EN_BIT, boardState.DA2_EN);
+	//	setStateBit(state, PA1_A_B_CTRL_BYTE, PA1_A_B_CTRL_BIT, boardState.PA1_A_B_CTRL);
+	//	setStateBit(state, PA2_A_B_CTRL_BYTE, PA2_A_B_CTRL_BIT, boardState.PA2_A_B_CTRL);
+	setStateBit(state, PDA1_EN_BYTE, PDA1_EN_BIT, boardState.PDA1_EN);
+	setStateBit(state, PDA2_EN_BYTE, PDA2_EN_BIT, boardState.PDA2_EN);
+	setStateBit(state, DA1_A_B_CTRL_BYTE, DA1_A_B_CTRL_BIT, boardState.DA1_A_B_CTRL);
+	setStateBit(state, DA2_A_B_CTRL_BYTE, DA2_A_B_CTRL_BIT, boardState.DA2_A_B_CTRL);
 
 	int selection = 0;
 	int selectionBits[7];
 	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
 
-	selection = boardState.PA1_CPL_ATT;
+	// milans 221223
+	//	selection = boardState.PA1_CPL_ATT;
+	selection = boardState.ORX1_ATT;
 
 	for (int i = 0; selection > 0; i++)
 	{
@@ -736,15 +817,25 @@ int Lms8fe_Cmd_Configure(lms_device_t *dev, LMS8FE_COM com, lms8fe_boardState bo
 		selection = selection / 2;
 	}
 
-	setStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT, selectionBits[0]);
-	setStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT, selectionBits[1]);
-	setStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT, selectionBits[2]);
-	setStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT, selectionBits[3]);
-	setStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT, selectionBits[4]);
-	setStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT, selectionBits[5]);
-	setStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT, selectionBits[6]);
+	// milans 221223
+	//	setStateBit(state, PA1_CPL_D0_BYTE, PA1_CPL_D0_BIT, selectionBits[0]);
+	//	setStateBit(state, PA1_CPL_D1_BYTE, PA1_CPL_D1_BIT, selectionBits[1]);
+	//	setStateBit(state, PA1_CPL_D2_BYTE, PA1_CPL_D2_BIT, selectionBits[2]);
+	//	setStateBit(state, PA1_CPL_D3_BYTE, PA1_CPL_D3_BIT, selectionBits[3]);
+	//	setStateBit(state, PA1_CPL_D4_BYTE, PA1_CPL_D4_BIT, selectionBits[4]);
+	//	setStateBit(state, PA1_CPL_D5_BYTE, PA1_CPL_D5_BIT, selectionBits[5]);
+	//	setStateBit(state, PA1_CPL_D6_BYTE, PA1_CPL_D6_BIT, selectionBits[6]);
+	setStateBit(state, ORX1_ATT_D0_BYTE, ORX1_ATT_D0_BIT, selectionBits[0]);
+	setStateBit(state, ORX1_ATT_D1_BYTE, ORX1_ATT_D1_BIT, selectionBits[1]);
+	setStateBit(state, ORX1_ATT_D2_BYTE, ORX1_ATT_D2_BIT, selectionBits[2]);
+	setStateBit(state, ORX1_ATT_D3_BYTE, ORX1_ATT_D3_BIT, selectionBits[3]);
+	setStateBit(state, ORX1_ATT_D4_BYTE, ORX1_ATT_D4_BIT, selectionBits[4]);
+	setStateBit(state, ORX1_ATT_D5_BYTE, ORX1_ATT_D5_BIT, selectionBits[5]);
+	setStateBit(state, ORX1_ATT_D6_BYTE, ORX1_ATT_D6_BIT, selectionBits[6]);
 
-	selection = boardState.PA2_CPL_ATT;
+	// milans 221223
+	//	selection = boardState.PA2_CPL_ATT;
+	selection = boardState.ORX2_ATT;
 
 	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
 
@@ -754,13 +845,21 @@ int Lms8fe_Cmd_Configure(lms_device_t *dev, LMS8FE_COM com, lms8fe_boardState bo
 		selection = selection / 2;
 	}
 
-	setStateBit(state, PA2_CPL_D0_BYTE, PA2_CPL_D0_BIT, selectionBits[0]);
-	setStateBit(state, PA2_CPL_D1_BYTE, PA2_CPL_D1_BIT, selectionBits[1]);
-	setStateBit(state, PA2_CPL_D2_BYTE, PA2_CPL_D2_BIT, selectionBits[2]);
-	setStateBit(state, PA2_CPL_D3_BYTE, PA2_CPL_D3_BIT, selectionBits[3]);
-	setStateBit(state, PA2_CPL_D4_BYTE, PA2_CPL_D4_BIT, selectionBits[4]);
-	setStateBit(state, PA2_CPL_D5_BYTE, PA2_CPL_D5_BIT, selectionBits[5]);
-	setStateBit(state, PA2_CPL_D6_BYTE, PA2_CPL_D6_BIT, selectionBits[6]);
+	// milans 22123
+	//	setStateBit(state, PA2_CPL_D0_BYTE, PA2_CPL_D0_BIT, selectionBits[0]);
+	//	setStateBit(state, PA2_CPL_D1_BYTE, PA2_CPL_D1_BIT, selectionBits[1]);
+	//	setStateBit(state, PA2_CPL_D2_BYTE, PA2_CPL_D2_BIT, selectionBits[2]);
+	//	setStateBit(state, PA2_CPL_D3_BYTE, PA2_CPL_D3_BIT, selectionBits[3]);
+	//	setStateBit(state, PA2_CPL_D4_BYTE, PA2_CPL_D4_BIT, selectionBits[4]);
+	//	setStateBit(state, PA2_CPL_D5_BYTE, PA2_CPL_D5_BIT, selectionBits[5]);
+	//	setStateBit(state, PA2_CPL_D6_BYTE, PA2_CPL_D6_BIT, selectionBits[6]);
+	setStateBit(state, ORX2_ATT_D0_BYTE, ORX2_ATT_D0_BIT, selectionBits[0]);
+	setStateBit(state, ORX2_ATT_D1_BYTE, ORX2_ATT_D1_BIT, selectionBits[1]);
+	setStateBit(state, ORX2_ATT_D2_BYTE, ORX2_ATT_D2_BIT, selectionBits[2]);
+	setStateBit(state, ORX2_ATT_D3_BYTE, ORX2_ATT_D3_BIT, selectionBits[3]);
+	setStateBit(state, ORX2_ATT_D4_BYTE, ORX2_ATT_D4_BIT, selectionBits[4]);
+	setStateBit(state, ORX2_ATT_D5_BYTE, ORX2_ATT_D5_BIT, selectionBits[5]);
+	setStateBit(state, ORX2_ATT_D6_BYTE, ORX2_ATT_D6_BIT, selectionBits[6]);
 
 	//	setStateBit(state, CHAIN_SIZE, MCU_BYTE_TXRX_1_BIT, cbTXRX_1->GetValue());
 	//	setStateBit(state, CHAIN_SIZE, MCU_BYTE_TXRX_2_BIT, cbTXRX_2->GetValue());
@@ -1206,7 +1305,6 @@ int Lms8fe_Cmd_DiodeSPI(lms_device_t *dev, LMS8FE_COM com, int state)
 	return result;
 }
 */
-
 int Lms8fe_Cmd_SC1905_SPI_Message_Memory(lms_device_t *dev, LMS8FE_COM com, uint16_t address, uint8_t *val, bool isRead, int bytesNo, bool isEEPROM)
 {
 	//	int result = LMS8FE_SUCCESS;
@@ -1420,23 +1518,25 @@ int Lms8fe_Cmd_Get_Config_Full(lms_device_t *dev, LMS8FE_COM com, uint8_t *state
 	return result;
 }
 
-
 // B.J. commented 24.11.2022
 // dummy declarations
 // these functions are part of LimeSute API
 // remove when SPI connection is used
 
-int LMS_ReadEXTBRDReg(lms_device_t *device, uint32_t address, uint16_t *val){
+int LMS_ReadEXTBRDReg(lms_device_t *device, uint32_t address, uint16_t *val)
+{
 	return 0;
 }
-int LMS_ReadEXTBRD(lms_device_t *device, uint32_t * address, uint32_t *data, unsigned cnt){
-	return 0;
-
-}
-int LMS_WriteEXTBRDReg(lms_device_t *device, uint32_t address, uint16_t val){
+int LMS_ReadEXTBRD(lms_device_t *device, uint32_t *address, uint32_t *data, unsigned cnt)
+{
 	return 0;
 }
-int LMS_WriteEXTBRD(lms_device_t *device, uint32_t * address, uint32_t *data, unsigned cnt){
+int LMS_WriteEXTBRDReg(lms_device_t *device, uint32_t address, uint16_t val)
+{
+	return 0;
+}
+int LMS_WriteEXTBRD(lms_device_t *device, uint32_t *address, uint32_t *data, unsigned cnt)
+{
 	return 0;
 }
 
@@ -1456,7 +1556,7 @@ int Lms8fe_SPI_read(lms_device_t *lms, uint16_t maddress, uint16_t address, uint
 	int ret = 0;
 	uint16_t regValue = 0x0000;
 	for (int k = 0; k < 6; k++)
-	LMS_ReadEXTBRDReg(lms, addr, &regValue);
+		LMS_ReadEXTBRDReg(lms, addr, &regValue);
 	*data = regValue;
 	return ret;
 }
@@ -1467,7 +1567,7 @@ int Lms8fe_spi_write_buffer(lms_device_t *lms, unsigned char *c, int size)
 	uint16_t maddress = MADDRESS;
 	uint16_t maddress2 = MADDRESS2;
 	uint16_t data = 0;
-	for (int i = 0; i < (size / 2); i++) 
+	for (int i = 0; i < (size / 2); i++)
 	{
 		data = 0;
 		data = (uint16_t)(c[2 * i + 1]);
@@ -1500,17 +1600,17 @@ int Lms8fe_spi_write_buffer(lms_device_t *lms, unsigned char *c, int size)
 	addr[size / 2] = maddress2;
 	data[size / 2] = 0x0001;
 	LMS_WriteEXTBRD(lms, addr, data, (unsigned int)(size / 2) + 1);
-/*
-	cout << "SPI Write ";  // B.J.
-    uint8_t X10, X1 = 0x00;
-    for (int j=0; j < size; j++) {
-        ConvertToAscii(c[j], &X10, &X1);
-        cout << X10 << X1 <<" ";
-    }
-	cout << "01" << "00" <<" ";
-    cout << std::endl;
-*/
-	//std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	/*
+		cout << "SPI Write ";  // B.J.
+		uint8_t X10, X1 = 0x00;
+		for (int j=0; j < size; j++) {
+			ConvertToAscii(c[j], &X10, &X1);
+			cout << X10 << X1 <<" ";
+		}
+		cout << "01" << "00" <<" ";
+		cout << std::endl;
+	*/
+	// std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	return 0;
 }
 
@@ -1606,25 +1706,24 @@ int Lms8fe_spi_read_buffer2(lms_device_t *lms, unsigned char *c, int size)
 void ConvertToAscii(uint8_t ch, uint8_t *pX10, uint8_t *pX1)
 {
 
-  uint8_t X10, X1 = 0;
+	uint8_t X10, X1 = 0;
 
-  X10 = ((ch & 0xF0) >> 4);
-  X1 = (ch & 0x0F);
+	X10 = ((ch & 0xF0) >> 4);
+	X1 = (ch & 0x0F);
 
-  if (X10 > 9)
-    X10 = X10 + 0x37; // A-F
-  else
-    X10 = X10 + 0x30; // 0-9
+	if (X10 > 9)
+		X10 = X10 + 0x37; // A-F
+	else
+		X10 = X10 + 0x30; // 0-9
 
-  if (X1 > 9)
-    X1 = X1 + 0x37;
-  else
-    X1 = X1 + 0x30;
+	if (X1 > 9)
+		X1 = X1 + 0x37;
+	else
+		X1 = X1 + 0x30;
 
-  *pX10 = X10;
-  *pX1 = X1;
+	*pX10 = X10;
+	*pX1 = X1;
 }
-
 
 int Lms8fe_spi_read_buffer(lms_device_t *lms, unsigned char *c, int size)
 {
@@ -1670,15 +1769,15 @@ int Lms8fe_spi_read_buffer(lms_device_t *lms, unsigned char *c, int size)
 		cx[2 * i + 1] = (uint8_t)(dataa[i] >> 8);
 		cx[2 * i] = (uint8_t)(dataa[i] & 0x00FF);
 	}
-/*
-    cout << "SPI Read ";  // B.J.
-    uint8_t X10, X1 = 0x00;
-    for (int j=0; j < 2*k; j++) {
-        ConvertToAscii(cx[j], &X10, &X1);
-        cout << X10 << X1 <<" ";
-    }
-    cout << std::endl;
-*/    
+	/*
+		cout << "SPI Read ";  // B.J.
+		uint8_t X10, X1 = 0x00;
+		for (int j=0; j < 2*k; j++) {
+			ConvertToAscii(cx[j], &X10, &X1);
+			cout << X10 << X1 <<" ";
+		}
+		cout << std::endl;
+	*/
 
 	m_bfound = false;
 	i = 0;
@@ -1686,20 +1785,20 @@ int Lms8fe_spi_read_buffer(lms_device_t *lms, unsigned char *c, int size)
 	{
 		if (cx[i] == 0xAA)
 			m_bfound = true;
-		i = i+2;
+		i = i + 2;
 	}
-	
-	if ((m_bfound) && ((i+size) <= 2*k))
+
+	if ((m_bfound) && ((i + size) <= 2 * k))
 	{
 		for (int j = 0; j < size; j++)
 			c[j] = cx[i + j];
 		return size;
 	}
-	else {
+	else
+	{
 		for (int j = 0; j < size; j++)
 			c[j] = 0x00;
 		return -1;
 	}
-		
 }
 // end B.J.

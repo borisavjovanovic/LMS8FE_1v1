@@ -66,6 +66,7 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	rbI2C = new wxRadioButton(sbSizer31->GetStaticBox(), wxID_ANY, wxT("SDR"), wxDefaultPosition, wxSize(-1, -1), wxRB_GROUP);
 	rbI2C->SetValue(true);
 	bSizer19->Add(rbI2C, 0, wxALL, 1);
+
 	bSizer21->Add(bSizer19, 1, wxEXPAND, 0);
 
 	wxBoxSizer *bSizer20;
@@ -73,6 +74,7 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 
 	rbUSB = new wxRadioButton(sbSizer31->GetStaticBox(), wxID_ANY, wxT("Direct (USB)"), wxDefaultPosition, wxSize(-1, -1), 0);
 	bSizer20->Add(rbUSB, 0, wxALL, 1);
+
 	bSizer21->Add(bSizer20, 1, wxEXPAND, 0);
 
 	// B.J.
@@ -80,7 +82,7 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	cbSingle = new wxCheckBox(sbSizer31->GetStaticBox(), wxID_ANY, wxT("Single R/W"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer21->Add(cbSingle, 0, wxALL, 2);
 
-    btnREADSPI = new wxButton(sbSizer31->GetStaticBox(), wxID_ANY, wxT("READ SPI"), wxDefaultPosition, wxSize(-1, -1), 0);
+	btnREADSPI = new wxButton(sbSizer31->GetStaticBox(), wxID_ANY, wxT("READ SPI"), wxDefaultPosition, wxSize(-1, -1), 0);
 	bSizer21->Add(btnREADSPI, 0, wxALL, 1);
 
 	btnWRITESPI = new wxButton(sbSizer31->GetStaticBox(), wxID_ANY, wxT("WRITE SPI"), wxDefaultPosition, wxSize(-1, -1), 0);
@@ -91,7 +93,6 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 
 	txtCtrlDATASPI = new wxTextCtrl(sbSizer31->GetStaticBox(), wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer21->Add(txtCtrlDATASPI, 0, wxALL, 1);
-
 
 	sbSizer31->Add(bSizer21, 1, wxEXPAND, 0);
 
@@ -281,13 +282,20 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	cbLMS8001_X_RESETn = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("LMS8001 Enable"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer2121->Add(cbLMS8001_X_RESETn, 0, wxALL, 2);
 
+	m_staticText4311 = new wxStaticText(sbSizer191->GetStaticBox(), wxID_ANY, wxT("TX Attenuation [dB]"), wxDefaultPosition, wxDefaultSize, 0);
+	m_staticText4311->Wrap(-1);
+	bSizer2121->Add(m_staticText4311, 0, wxALL, 2);
+
+	cmbTXX_ATT = new wxComboBox(sbSizer191->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	bSizer2121->Add(cmbTXX_ATT, 0, wxALL, 2);
+
 	gSizer1211->Add(bSizer2121, 1, wxEXPAND, 5);
 
 	wxBoxSizer *bSizer2211;
 	bSizer2211 = new wxBoxSizer(wxVERTICAL);
 
-	cbDAX_EN = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("PDA Enable"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer2211->Add(cbDAX_EN, 0, wxALL, 2);
+	cbPDAX_EN = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("PDA Enable"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer2211->Add(cbPDAX_EN, 0, wxALL, 2);
 
 	cbLNAX_EN = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("LNA Enable"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer2211->Add(cbLNAX_EN, 0, wxALL, 2);
@@ -296,19 +304,19 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	m_staticText431->Wrap(-1);
 	bSizer2211->Add(m_staticText431, 0, wxALL, 2);
 
-	cmbPAX_CPL = new wxComboBox(sbSizer191->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-	bSizer2211->Add(cmbPAX_CPL, 0, wxALL, 2);
+	cmbORXX_ATT = new wxComboBox(sbSizer191->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	bSizer2211->Add(cmbORXX_ATT, 0, wxALL, 2);
 
 	gSizer1211->Add(bSizer2211, 1, wxEXPAND, 5);
 
 	wxBoxSizer *bSizer28;
 	bSizer28 = new wxBoxSizer(wxVERTICAL);
 
-	cbPAX_X_EN = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("DA Enable"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer28->Add(cbPAX_X_EN, 0, wxALL, 2);
+	cbDAX_X_EN = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("DA Enable"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer28->Add(cbDAX_X_EN, 0, wxALL, 2);
 
-	cbPAX_A_B_CTRL = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("A/B (0 - B; 1 - A)"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer28->Add(cbPAX_A_B_CTRL, 0, wxALL, 2);
+	cbDAX_A_B_CTRL = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("A/B (0 - B; 1 - A)"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer28->Add(cbDAX_A_B_CTRL, 0, wxALL, 2);
 
 	cbTXRX_X = new wxCheckBox(sbSizer191->GetStaticBox(), wxID_ANY, wxT("TX/RX (0 - RX; 1 - TX)"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer28->Add(cbTXRX_X, 0, wxALL, 2);
@@ -322,7 +330,7 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	m_panel131->SetSizer(sbSizer191);
 	m_panel131->Layout();
 	sbSizer191->Fit(m_panel131);
-	m_notebook3->AddPage(m_panel131, wxT("Simple"), true);
+	m_notebook3->AddPage(m_panel131, wxT("Simple"), false);
 	m_panel14 = new wxPanel(m_notebook3, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxStaticBoxSizer *sbSizer19;
 	sbSizer19 = new wxStaticBoxSizer(new wxStaticBox(m_panel14, wxID_ANY, wxT("Data")), wxVERTICAL);
@@ -357,8 +365,8 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	cbSC1905_2_SSENn = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("SC1905_#2_SSENn"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer191->Add(cbSC1905_2_SSENn, 0, wxALL, 2);
 
-	cbGPIO_SEL_A_LMS8001 = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("GPIO_SEL_A_LMS8001"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer191->Add(cbGPIO_SEL_A_LMS8001, 0, wxALL, 2);
+	//cbGPIO_SEL_A_LMS8001 = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("GPIO_SEL_A_LMS8001"), wxDefaultPosition, wxDefaultSize, 0);
+	//bSizer191->Add(cbGPIO_SEL_A_LMS8001, 0, wxALL, 2);
 
 	cbSC1905_1_RESETn = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("SC1905_#1_RESETn"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer191->Add(cbSC1905_1_RESETn, 0, wxALL, 2);
@@ -383,17 +391,17 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	cbSD_AMP2 = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("SD_AMP2"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer201->Add(cbSD_AMP2, 0, wxALL, 2);
 
-	cbPA1_A_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PA1_A_EN"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer201->Add(cbPA1_A_EN, 0, wxALL, 2);
+	cbDA1_A_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("DA1_A_EN"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer201->Add(cbDA1_A_EN, 0, wxALL, 2);
 
-	cbPA1_B_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PA1_B_EN"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer201->Add(cbPA1_B_EN, 0, wxALL, 2);
+	cbDA1_B_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("DA1_B_EN"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer201->Add(cbDA1_B_EN, 0, wxALL, 2);
 
-	cbPA2_A_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PA2_A_EN"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer201->Add(cbPA2_A_EN, 0, wxALL, 2);
+	cbDA2_A_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("DA2_A_EN"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer201->Add(cbDA2_A_EN, 0, wxALL, 2);
 
-	cbPA2_B_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PA2_B_EN"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer201->Add(cbPA2_B_EN, 0, wxALL, 2);
+	cbDA2_B_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("DA2_B_EN"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer201->Add(cbDA2_B_EN, 0, wxALL, 2);
 
 	cbLNA1_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("LNA1_EN"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer201->Add(cbLNA1_EN, 0, wxALL, 2);
@@ -406,31 +414,45 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	wxBoxSizer *bSizer212;
 	bSizer212 = new wxBoxSizer(wxVERTICAL);
 
-	cbDA1_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("DA1_EN"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer212->Add(cbDA1_EN, 0, wxALL, 2);
+	cbPDA1_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PDA1_EN"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer212->Add(cbPDA1_EN, 0, wxALL, 2);
 
-	cbDA2_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("DA2_EN"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer212->Add(cbDA2_EN, 0, wxALL, 2);
+	cbPDA2_EN = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PDA2_EN"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer212->Add(cbPDA2_EN, 0, wxALL, 2);
 
-	cbPA1_A_B_CTRL = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PA1_A_B_CTRL"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer212->Add(cbPA1_A_B_CTRL, 0, wxALL, 2);
+	cbDA1_A_B_CTRL = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("DA1_A_B_CTRL"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer212->Add(cbDA1_A_B_CTRL, 0, wxALL, 2);
 
-	cbPA2_A_B_CTRL = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PA2_A_B_CTRL"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer212->Add(cbPA2_A_B_CTRL, 0, wxALL, 2);
+	cbDA2_A_B_CTRL = new wxCheckBox(sbSizer19->GetStaticBox(), wxID_ANY, wxT("DA2_A_B_CTRL"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer212->Add(cbDA2_A_B_CTRL, 0, wxALL, 2);
 
-	m_staticText43 = new wxStaticText(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PA1 CPL Att. [dB]"), wxDefaultPosition, wxDefaultSize, 0);
+	m_staticText43 = new wxStaticText(sbSizer19->GetStaticBox(), wxID_ANY, wxT("ORX1 Att. [dB]"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText43->Wrap(-1);
 	bSizer212->Add(m_staticText43, 0, wxALL, 2);
 
-	cmbPA1_CPL = new wxComboBox(sbSizer19->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-	bSizer212->Add(cmbPA1_CPL, 0, wxALL, 2);
+	cmbORX1_ATT = new wxComboBox(sbSizer19->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	bSizer212->Add(cmbORX1_ATT, 0, wxALL, 2);
 
-	m_staticText44 = new wxStaticText(sbSizer19->GetStaticBox(), wxID_ANY, wxT("PA2 CPL Att. [dB]"), wxDefaultPosition, wxDefaultSize, 0);
+	m_staticText44 = new wxStaticText(sbSizer19->GetStaticBox(), wxID_ANY, wxT("ORX2 Att. [dB]"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText44->Wrap(-1);
 	bSizer212->Add(m_staticText44, 0, wxALL, 2);
 
-	cmbPA2_CPL = new wxComboBox(sbSizer19->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-	bSizer212->Add(cmbPA2_CPL, 0, wxALL, 2);
+	cmbORX2_ATT = new wxComboBox(sbSizer19->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	bSizer212->Add(cmbORX2_ATT, 0, wxALL, 2);
+
+	m_staticText432 = new wxStaticText(sbSizer19->GetStaticBox(), wxID_ANY, wxT("TX1 Att. [dB]"), wxDefaultPosition, wxDefaultSize, 0);
+	m_staticText432->Wrap(-1);
+	bSizer212->Add(m_staticText432, 0, wxALL, 2);
+
+	cmbTX1_ATT = new wxComboBox(sbSizer19->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	bSizer212->Add(cmbTX1_ATT, 0, wxALL, 2);
+
+	m_staticText441 = new wxStaticText(sbSizer19->GetStaticBox(), wxID_ANY, wxT("TX2 Att. [dB]"), wxDefaultPosition, wxDefaultSize, 0);
+	m_staticText441->Wrap(-1);
+	bSizer212->Add(m_staticText441, 0, wxALL, 2);
+
+	cmbTX2_ATT = new wxComboBox(sbSizer19->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	bSizer212->Add(cmbTX2_ATT, 0, wxALL, 2);
 
 	gSizer121->Add(bSizer212, 1, wxEXPAND, 5);
 
@@ -450,7 +472,7 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	m_panel14->SetSizer(sbSizer19);
 	m_panel14->Layout();
 	sbSizer19->Fit(m_panel14);
-	m_notebook3->AddPage(m_panel14, wxT("Detailed"), false);
+	m_notebook3->AddPage(m_panel14, wxT("Detailed"), true);
 
 	fgSizer18->Add(m_notebook3, 1, wxEXPAND | wxALL, 5);
 
@@ -1226,11 +1248,12 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	cbSD_AMPX->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbSC1905_X_RESETn->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbLMS8001_X_RESETn->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
-	cbDAX_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cmbTXX_ATT->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cbPDAX_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbLNAX_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
-	cmbPAX_CPL->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
-	cbPAX_X_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
-	cbPAX_A_B_CTRL->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cmbORXX_ATT->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cbDAX_X_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cbDAX_A_B_CTRL->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbTXRX_X->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbSPI_2_MCU_DIR_OUT_in->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbLMS8001_1_SSENn->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
@@ -1240,25 +1263,27 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	cbLMS8001_2_RESETn->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSC1905_1_SSENn->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSC1905_2_SSENn->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbGPIO_SEL_A_LMS8001->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	//cbGPIO_SEL_A_LMS8001->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSC1905_1_RESETn->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSC1905_2_RESETn->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbBP_AMP1->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSD_AMP1->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbBP_AMP2->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSD_AMP2->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA1_A_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA1_B_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA2_A_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA2_B_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA1_A_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA1_B_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA2_A_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA2_B_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbLNA1_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbLNA2_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbDA1_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbDA2_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA1_A_B_CTRL->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA2_A_B_CTRL->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cmbPA1_CPL->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cmbPA2_CPL->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbPDA1_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbPDA2_EN->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA1_A_B_CTRL->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA2_A_B_CTRL->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cmbORX1_ATT->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cmbORX2_ATT->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cmbTX1_ATT->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cmbTX2_ATT->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbTXRX_1->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbTXRX_2->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	btnApplyData->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnApplyData), NULL, this);
@@ -1288,8 +1313,8 @@ LMS8FE_view::LMS8FE_view(wxWindow *parent, wxWindowID id, const wxString &title,
 	btnSC1905_EEPROM_Execute->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnSC1905_EEPROM_Execute), NULL, this);
 	gridSC1905_EEPROM_Parameters->Connect(wxEVT_GRID_CELL_CHANGED, wxGridEventHandler(LMS8FE_view::OnGridCellChangegridSC1905_EEPROM_Parameters), NULL, this);
 	btnClearMessages->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnClearMessages), NULL, this);
- 	btnREADSPI->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnREADSPI), NULL, this);  //B.J.
-	btnWRITESPI->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnWRITESPI), NULL, this);  //B.J.
+	btnREADSPI->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnREADSPI), NULL, this);   // B.J.
+	btnWRITESPI->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnWRITESPI), NULL, this); // B.J.
 }
 
 LMS8FE_view::~LMS8FE_view()
@@ -1311,11 +1336,12 @@ LMS8FE_view::~LMS8FE_view()
 	cbSD_AMPX->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbSC1905_X_RESETn->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbLMS8001_X_RESETn->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
-	cbDAX_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cmbTXX_ATT->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cbPDAX_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbLNAX_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
-	cmbPAX_CPL->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
-	cbPAX_X_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
-	cbPAX_A_B_CTRL->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cmbORXX_ATT->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cbDAX_X_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
+	cbDAX_A_B_CTRL->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbTXRX_X->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnSimpleChanged), NULL, this);
 	cbSPI_2_MCU_DIR_OUT_in->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbLMS8001_1_SSENn->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
@@ -1325,25 +1351,27 @@ LMS8FE_view::~LMS8FE_view()
 	cbLMS8001_2_RESETn->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSC1905_1_SSENn->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSC1905_2_SSENn->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbGPIO_SEL_A_LMS8001->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	//cbGPIO_SEL_A_LMS8001->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSC1905_1_RESETn->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSC1905_2_RESETn->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbBP_AMP1->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSD_AMP1->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbBP_AMP2->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbSD_AMP2->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA1_A_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA1_B_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA2_A_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA2_B_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA1_A_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA1_B_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA2_A_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA2_B_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbLNA1_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbLNA2_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbDA1_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbDA2_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA1_A_B_CTRL->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cbPA2_A_B_CTRL->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cmbPA1_CPL->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
-	cmbPA2_CPL->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbPDA1_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbPDA2_EN->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA1_A_B_CTRL->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cbDA2_A_B_CTRL->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cmbORX1_ATT->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cmbORX2_ATT->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cmbTX1_ATT->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
+	cmbTX2_ATT->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbTXRX_1->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	cbTXRX_2->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(LMS8FE_view::OnDetailedChange), NULL, this);
 	btnApplyData->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnApplyData), NULL, this);
@@ -1373,8 +1401,6 @@ LMS8FE_view::~LMS8FE_view()
 	btnSC1905_EEPROM_Execute->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnSC1905_EEPROM_Execute), NULL, this);
 	gridSC1905_EEPROM_Parameters->Disconnect(wxEVT_GRID_CELL_CHANGED, wxGridEventHandler(LMS8FE_view::OnGridCellChangegridSC1905_EEPROM_Parameters), NULL, this);
 	btnClearMessages->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnClearMessages), NULL, this);
-	btnREADSPI->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnREADSPI), NULL, this);  //B.J.
-	btnWRITESPI->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnWRITESPI), NULL, this);  //B.J.
-
-
+	btnREADSPI->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnREADSPI), NULL, this);	  // B.J.
+	btnWRITESPI->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LMS8FE_view::OnbtnWRITESPI), NULL, this); // B.J.
 }
