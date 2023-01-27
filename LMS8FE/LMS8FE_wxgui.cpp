@@ -2743,6 +2743,8 @@ void LMS8FE_wxgui::Detailed2Simple()
 }
 
 // B.J.
+// milans 230127 - Commented out, since the wxFormBuilder file that was on the github did not contain this SPI part
+/*
 void LMS8FE_wxgui::OnbtnWRITESPI(wxCommandEvent &event)
 {
 	uint16_t regValue = 0x0000;
@@ -2804,3 +2806,4 @@ void LMS8FE_wxgui::OnbtnREADSPI(wxCommandEvent &event)
 		}
 	}
 }
+*/
