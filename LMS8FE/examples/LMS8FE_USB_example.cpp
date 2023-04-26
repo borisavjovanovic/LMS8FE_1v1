@@ -24,7 +24,8 @@ int main(int argc, char** argv)
         lms8fe_dev_t* lms8fe = LMS8FE_Open(argv[1], nullptr);
 */
 	//milans 221201 TMP TMP TMP TMP TMP
-	lms8fe_dev_t* lms8fe = LMS8FE_Open("COM4", nullptr);
+	//lms8fe_dev_t* lms8fe = LMS8FE_Open("COM4", nullptr);
+	lms8fe_dev_t* lms8fe = LMS8FE_Open("/dev/ttyACM0", nullptr);
 
 	if (lms8fe == nullptr) {
 		std::cout << "Error: failed to open device" << std::endl;
@@ -61,7 +62,7 @@ int main(int argc, char** argv)
 	printf("state.PDA1_EN = %d\n", state.PDA1_EN);
 	state.PDA1_EN = 1;
 
-	result = LMS8FE_SetState(lms8fe, state);
+    result = LMS8FE_SetState(lms8fe, state);
 
 	result = LMS8FE_GetState(lms8fe, &state);
 //milans 221223

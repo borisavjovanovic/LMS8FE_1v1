@@ -218,6 +218,7 @@ extern "C"
 	int Lms8fe_Cmd_GetConfig(lms_device_t *dev, LMS8FE_COM com, lms8fe_boardState *state);
 	int Lms8fe_Cmd_Hello(lms_device_t *dev, LMS8FE_COM com);
 	int Lms8fe_Cmd_LoadConfig(lms_device_t *dev, LMS8FE_COM com, const char *filename);
+	int Lms8fe_Cmd_SaveConfig(lms_device_t *dev, LMS8FE_COM com, const char *filename);
 	int Lms8fe_Cmd_Reset(lms_device_t *dev, LMS8FE_COM com);
 //milans 221128
 	int Lms8fe_Cmd_lms8_Enable(lms_device_t* dev, LMS8FE_COM com, uint8_t value);
@@ -244,6 +245,19 @@ extern "C"
 	int Lms8fe_Cmd_SC1905_Reset(lms_device_t *dev, LMS8FE_COM com);
 	// milans 220527
 	int Lms8fe_Cmd_SC1905_Apply_Frequency(lms_device_t *dev, LMS8FE_COM com, int freqRange, int minFreq, int maxFreq);
+	
+	// B.J.
+	int Lms8fe_Cmd_SC1905S_Set_Duty_Cycle_Feedback(lms_device_t *dev, LMS8FE_COM com, uint8_t Enabled);
+	int Lms8fe_Cmd_SC1905S_Set_Adaptation_State(lms_device_t *dev, LMS8FE_COM com, uint8_t Running);
+	int Lms8fe_Cmd_SC1905S_Set_Correction_Enable(lms_device_t *dev, LMS8FE_COM com, uint8_t Enabled);
+	int Lms8fe_Cmd_SC1905S_Read_RFIN_AGC(lms_device_t *dev, LMS8FE_COM com, int * rfinAgc);
+	int Lms8fe_Cmd_SC1905S_Read_RFFB_AGC(lms_device_t *dev, LMS8FE_COM com, int * rffbAgc);
+	int Lms8fe_Cmd_SC1905S_Read_Center_Frequency(lms_device_t *dev, LMS8FE_COM com, float * centerFreq);
+	int Lms8fe_Cmd_SC1905S_Read_Signal_Bandwidth(lms_device_t *dev, LMS8FE_COM com, float * bandwidth);
+	int Lms8fe_Cmd_SC1905S_Read_Error_Code(lms_device_t *dev, LMS8FE_COM com, char * stringValue);
+	int Lms8fe_Cmd_SC1905S_Read_Warning_Code(lms_device_t *dev, LMS8FE_COM com, char * stringValue);
+	int Lms8fe_Cmd_SC1905_GetStatus(lms_device_t *dev, LMS8FE_COM com, char * statusString);
+
 	// milans 220530
 	int Lms8fe_Cmd_SC1905_SPI_Special_Command(lms_device_t *dev, LMS8FE_COM com, int command);
 	// milans 220624
@@ -256,7 +270,7 @@ extern "C"
 
 	// milans 220722
 	//	int Lms8fe_SaveConfig(const char *filename, lms8fe_boardState state, guiState stateGUI);
-	int Lms8fe_SaveConfig(const char *filename, lms8fe_boardState state);
+	int Lms8fe_WriteConfig(const char *filename, lms8fe_boardState state);
 
 	/************************************************************************
 	 * I2C Functions

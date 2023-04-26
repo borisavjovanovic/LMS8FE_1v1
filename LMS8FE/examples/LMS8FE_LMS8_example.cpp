@@ -33,7 +33,8 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 	//Open port
-    lms8fe = LMS8FE_Open(argv[1], nullptr);
+    //lms8fe = LMS8FE_Open(argv[1], nullptr);
+    lms8fe = LMS8FE_Open("/dev/ttyACM0", nullptr);
 
 	if (lms8fe == nullptr) {
 		std::cout << "Error: failed to open device" << std::endl;
@@ -84,18 +85,19 @@ int main(int argc, char** argv)
     LMS8_ReadLMSReg(lms8_device, 0x0004, &value);
     printf("Address: 0x%04x; Value: 0x%02x\n", address, value);
 
-    printf("Loading state...\n");
-    result = LMS8_LoadConfig(lms8_device, "c:\\Data\\Temp\\LMS8001_state.ini");
-    if (result != LMS_SUCCESS)
-        printf("Error loading state.\n");
-    printf("Finished\n");
-
     printf("Resetting...\n");
     result = LMS8_Reset(lms8_device);
     if (result != LMS_SUCCESS)
         printf("Error resetting.\n");
     printf("Finished\n");
-
+    
+    
+    printf("Loading state...\n");
+    result = LMS8_LoadConfig(lms8_device, "Conf_LMS8001.ini");
+    if (result != LMS_SUCCESS)
+        printf("Error loading state.\n");
+    printf("Finished\n");
+    
     int isLocked;
 
     isLocked = LMS8_Get_SPI_Reg_bits(lms8_device, PLL_LOCK);
@@ -118,7 +120,7 @@ int main(int argc, char** argv)
 
     isLocked = LMS8_Get_SPI_Reg_bits(lms8_device, PLL_LOCK);
     printf("Is Locked: %d\n", isLocked);
-
+    
     printf("Smart Tuning PLL...\n");
 
     result = LMS8_PLL_Smart_Tune(lms8_device, 5.5);
@@ -127,7 +129,7 @@ int main(int argc, char** argv)
 
     isLocked = LMS8_Get_SPI_Reg_bits(lms8_device, PLL_LOCK);
     printf("Is Locked: %d\n", isLocked);
-
+    
     printf("Selecting channel 2\n");
     result = LMS8FE_Select_Channel(lms8fe, LMS8FE_CH2);
 
@@ -156,7 +158,7 @@ int main(int argc, char** argv)
     LMS8_Close(lms8_device);
 
 	//Close port
-	LMS8FE_Close(lms8fe);
+   	LMS8FE_Close(lms8fe);
 
 	return 0;
 }

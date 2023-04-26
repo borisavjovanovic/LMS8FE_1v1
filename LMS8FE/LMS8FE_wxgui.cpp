@@ -433,7 +433,11 @@ void LMS8FE_wxgui::OnbtnClosePort(wxCommandEvent &event)
 	LMS8FE_Close(lms8fe);
 	lms8fe = nullptr;
 	AddMssg("Port closed");
+	
+	// B.J.
 	configured = false;
+	applied = false;
+	
 	UpdateLMS8FEForm();
 }
 
@@ -551,6 +555,9 @@ void LMS8FE_wxgui::OnbtnOpen(wxCommandEvent &event)
 	//	guiState stateGUI;
 	//	ReadConfig(dlg.GetPath().To8BitData(), &state, &stateGUI);
 	Lms8fe_ReadConfig(dlg.GetPath().To8BitData(), &state);
+	
+	// B.J.
+	applied = true;
 
 	//	powerCellCalCorr = stateGUI.powerCellCorr;
 	//	powerCalCorr = stateGUI.powerCorr;
@@ -559,7 +566,9 @@ void LMS8FE_wxgui::OnbtnOpen(wxCommandEvent &event)
 
 void LMS8FE_wxgui::OnbtnSave(wxCommandEvent &event)
 {
-	if (!configured)
+	// B.J.
+	// if (!configured)
+	if (!applied)
 	{
 		AddMssg("Error: The board has not been configured to the current settings. Please configure the board prior to saving the state.");
 		return;
@@ -626,7 +635,8 @@ void LMS8FE_wxgui::OnbtnSave(wxCommandEvent &event)
 
 	// milans 220722
 	//	int status = SaveConfig(dlg.GetPath().To8BitData(), configuredState, stateGUI);
-	int status = Lms8fe_SaveConfig(dlg.GetPath().To8BitData(), configuredState);
+	int status = Lms8fe_WriteConfig(dlg.GetPath().To8BitData(), configuredState);
+	//Lms8fe_SaveConfig(dlg.GetPath().To8BitData(), configuredState);
 
 	if (status != 0)
 		wxMessageBox(_("Failed to save file"), _("Warning"));
@@ -2343,6 +2353,8 @@ void LMS8FE_wxgui::OnbtnApplyData(wxCommandEvent &event)
 	}
 
 	applied = true;
+	// B.J.
+	// configured = true;
 	btnApplyData->Enable(!applied);
 }
 
@@ -2538,6 +2550,8 @@ void LMS8FE_wxgui::OnbtnReadData(wxCommandEvent &event)
 	Detailed2Simple();
 
 	applied = true;
+	// B.J.
+	// configured = true;
 	btnApplyData->Enable(!applied);
 }
 

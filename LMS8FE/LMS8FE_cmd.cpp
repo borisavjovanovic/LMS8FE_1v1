@@ -437,7 +437,7 @@ int Lms8fe_ReadConfig(const char *filename, lms8fe_boardState *stateBoard)
 
 // milans 220722
 // int Lms8fe_SaveConfig(const char *filename, lms8fe_boardState state, guiState stateGUI) {
-int Lms8fe_SaveConfig(const char *filename, lms8fe_boardState state)
+int Lms8fe_WriteConfig(const char *filename, lms8fe_boardState state)
 {
 	FILE *fout;
 	fout = fopen(filename, "w");
@@ -602,6 +602,26 @@ int Lms8fe_Cmd_GetConfig(lms_device_t *dev, LMS8FE_COM com, lms8fe_boardState *b
 		pow(2, 5) * getStateBit(state, ORX2_ATT_D5_BYTE, ORX2_ATT_D5_BIT) +
 		pow(2, 6) * getStateBit(state, ORX2_ATT_D6_BYTE, ORX2_ATT_D6_BIT);
 
+	// B.J.
+	boardState->TX1_ATT =
+		pow(2, 0) * getStateBit(state, TX1_ATT_D0_BYTE, TX1_ATT_D0_BIT) +
+		pow(2, 1) * getStateBit(state, TX1_ATT_D1_BYTE, TX1_ATT_D1_BIT) +
+		pow(2, 2) * getStateBit(state, TX1_ATT_D2_BYTE, TX1_ATT_D2_BIT) +
+		pow(2, 3) * getStateBit(state, TX1_ATT_D3_BYTE, TX1_ATT_D3_BIT) +
+		pow(2, 4) * getStateBit(state, TX1_ATT_D4_BYTE, TX1_ATT_D4_BIT) +
+		pow(2, 5) * getStateBit(state, TX1_ATT_D5_BYTE, TX1_ATT_D5_BIT) +
+		pow(2, 6) * getStateBit(state, TX1_ATT_D6_BYTE, TX1_ATT_D6_BIT);
+
+	// B.J.
+	boardState->TX2_ATT =
+		pow(2, 0) * getStateBit(state, TX2_ATT_D0_BYTE, TX2_ATT_D0_BIT) +
+		pow(2, 1) * getStateBit(state, TX2_ATT_D1_BYTE, TX2_ATT_D1_BIT) +
+		pow(2, 2) * getStateBit(state, TX2_ATT_D2_BYTE, TX2_ATT_D2_BIT) +
+		pow(2, 3) * getStateBit(state, TX2_ATT_D3_BYTE, TX2_ATT_D3_BIT) +
+		pow(2, 4) * getStateBit(state, TX2_ATT_D4_BYTE, TX2_ATT_D4_BIT) +
+		pow(2, 5) * getStateBit(state, TX2_ATT_D5_BYTE, TX2_ATT_D5_BIT) +
+		pow(2, 6) * getStateBit(state, TX2_ATT_D6_BYTE, TX2_ATT_D6_BIT);	
+
 	boardState->TXRX_1 = getStateBit(state, MCU_BYTE, MCU_TXRX_1_BIT);
 	boardState->TXRX_2 = getStateBit(state, MCU_BYTE, MCU_TXRX_2_BIT);
 
@@ -688,6 +708,23 @@ int Lms8fe_Cmd_LoadConfig(lms_device_t *dev, LMS8FE_COM com, const char *filenam
 	result = Lms8fe_Cmd_Configure(dev, com, state);
 	//	result = Lms8fe_Cmd_Configure(dev, com, state.channelIDRX, state.channelIDTX, state.selPortRX, state.selPortTX, state.mode, state.notchOnOff, state.attValue, state.enableSWR, state.sourceSWR);
 
+	return result;
+}
+
+
+// B.J.
+int Lms8fe_Cmd_SaveConfig(lms_device_t *dev, LMS8FE_COM com, const char *filename)
+{
+	int result = 0;
+
+	lms8fe_boardState state;
+
+	result = Lms8fe_Cmd_GetConfig(dev, com, &state);
+	
+	if (result != 0)
+		return result;
+
+	Lms8fe_WriteConfig(filename, state);
 	return result;
 }
 
@@ -860,6 +897,45 @@ int Lms8fe_Cmd_Configure(lms_device_t *dev, LMS8FE_COM com, lms8fe_boardState bo
 	setStateBit(state, ORX2_ATT_D4_BYTE, ORX2_ATT_D4_BIT, selectionBits[4]);
 	setStateBit(state, ORX2_ATT_D5_BYTE, ORX2_ATT_D5_BIT, selectionBits[5]);
 	setStateBit(state, ORX2_ATT_D6_BYTE, ORX2_ATT_D6_BIT, selectionBits[6]);
+
+
+	// B.J.
+	selection = boardState.TX1_ATT;
+
+	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
+
+	for (int i = 0; selection > 0; i++)
+	{
+		selectionBits[i] = selection % 2;
+		selection = selection / 2;
+	}
+
+	setStateBit(state, TX1_ATT_D0_BYTE, TX1_ATT_D0_BIT, selectionBits[0]);
+	setStateBit(state, TX1_ATT_D1_BYTE, TX1_ATT_D1_BIT, selectionBits[1]);
+	setStateBit(state, TX1_ATT_D2_BYTE, TX1_ATT_D2_BIT, selectionBits[2]);
+	setStateBit(state, TX1_ATT_D3_BYTE, TX1_ATT_D3_BIT, selectionBits[3]);
+	setStateBit(state, TX1_ATT_D4_BYTE, TX1_ATT_D4_BIT, selectionBits[4]);
+	setStateBit(state, TX1_ATT_D5_BYTE, TX1_ATT_D5_BIT, selectionBits[5]);
+	setStateBit(state, TX1_ATT_D6_BYTE, TX1_ATT_D6_BIT, selectionBits[6]);
+
+	selection = boardState.TX2_ATT;
+
+	memset(selectionBits, 0, 7 * sizeof(selectionBits[0]));
+
+	for (int i = 0; selection > 0; i++)
+	{
+		selectionBits[i] = selection % 2;
+		selection = selection / 2;
+	}
+
+	setStateBit(state, TX2_ATT_D0_BYTE, TX2_ATT_D0_BIT, selectionBits[0]);
+	setStateBit(state, TX2_ATT_D1_BYTE, TX2_ATT_D1_BIT, selectionBits[1]);
+	setStateBit(state, TX2_ATT_D2_BYTE, TX2_ATT_D2_BIT, selectionBits[2]);
+	setStateBit(state, TX2_ATT_D3_BYTE, TX2_ATT_D3_BIT, selectionBits[3]);
+	setStateBit(state, TX2_ATT_D4_BYTE, TX2_ATT_D4_BIT, selectionBits[4]);
+	setStateBit(state, TX2_ATT_D5_BYTE, TX2_ATT_D5_BIT, selectionBits[5]);
+	setStateBit(state, TX2_ATT_D6_BYTE, TX2_ATT_D6_BIT, selectionBits[6]);
+
 
 	//	setStateBit(state, CHAIN_SIZE, MCU_BYTE_TXRX_1_BIT, cbTXRX_1->GetValue());
 	//	setStateBit(state, CHAIN_SIZE, MCU_BYTE_TXRX_2_BIT, cbTXRX_2->GetValue());
@@ -1473,6 +1549,194 @@ int Lms8fe_Cmd_SC1905_Apply_Frequency(lms_device_t *dev, LMS8FE_COM com, int fre
 
 	return result;
 }
+
+int Lms8fe_Cmd_SC1905S_Set_Duty_Cycle_Feedback(lms_device_t *dev, LMS8FE_COM com, uint8_t Enabled)
+{
+	int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+	val[0] = (Enabled & 0x01);
+	address = 0x017;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, false, 1);
+	return result;
+}
+
+int Lms8fe_Cmd_SC1905S_Set_Adaptation_State(lms_device_t *dev, LMS8FE_COM com, uint8_t Running)
+{
+	int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+	val[0] =(Running & 0x01);
+	address = 0x023;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, false, 1);
+	return result;
+}
+
+int Lms8fe_Cmd_SC1905S_Set_Correction_Enable(lms_device_t *dev, LMS8FE_COM com, uint8_t Enabled)
+{
+	int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+	val[0] = (Enabled & 0x01);
+	address = 0x008;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com,  address, val, false, 1);
+
+	// SC1905 SPI PRogramming Guide, page 17
+	// "After changing Output Mode, send the "Activate Outputs" messages toi be effective. See Table 2."
+	result = Lms8fe_Cmd_SC1905_SPI_Special_Command(dev, com, LMS8FE_SC1905_COMMAND_ACTIVATE_OUTPUTS);
+	return result;
+}
+
+// Read RFIN AGC
+int Lms8fe_Cmd_SC1905S_Read_RFIN_AGC(lms_device_t *dev, LMS8FE_COM com, int * rfinAgc) {
+    
+	int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+	
+	address = 0x23C;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, true, 1);
+	*rfinAgc = val[0];
+	return result;
+}	
+
+// Read RFFB AGC
+int Lms8fe_Cmd_SC1905S_Read_RFFB_AGC(lms_device_t *dev, LMS8FE_COM com, int * rffbAgc) {
+    
+	int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+
+	address = 0x9C4;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, true, 1);
+	*rffbAgc = val[0];
+	return result;
+}	
+
+// Read Center Frequency
+int Lms8fe_Cmd_SC1905S_Read_Center_Frequency(lms_device_t *dev, LMS8FE_COM com, float * centerFreq) {
+
+    int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+
+	address = 0x01A;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, true, 2);
+
+	*centerFreq = (val[0] * 100 + val[1]) / 2;
+	return result;
+}	
+
+// Read Signal Bandwidth (24dBc BW)
+int Lms8fe_Cmd_SC1905S_Read_Signal_Bandwidth(lms_device_t *dev, LMS8FE_COM com, float * bandwidth) {
+
+    int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+
+	address = 0x018;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, true, 2);
+
+	*bandwidth = (val[0] * 100 + val[1]) / 2;
+	return result;
+}
+
+
+// Read Error Code & Generate Error Message
+int Lms8fe_Cmd_SC1905S_Read_Error_Code(lms_device_t *dev, LMS8FE_COM com, char * stringValue) {
+	
+	int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+
+	address = 0x006;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, true, 2);
+
+	int errorCode = val[0];
+	switch (errorCode)
+	{
+	case 0:
+		sprintf(stringValue, "No Error");
+		break;
+	case 3:
+		sprintf(stringValue, "EEPROM Corrupted");
+		break;
+	case 5:
+		sprintf(stringValue, "Center Frequency outside the Defined Frequencvy Range");
+		break;
+	case 13:
+		sprintf(stringValue, "Wrong CLK Setting");
+		break;
+	default:
+		sprintf(stringValue, "Internal Chip Error");
+	}	
+	return result;
+}
+
+
+// Read Warning Code & Generate Warning Message
+int Lms8fe_Cmd_SC1905S_Read_Warning_Code(lms_device_t *dev, LMS8FE_COM com, char * stringValue) {
+	
+	int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2] = {0x00, 0x00};
+
+	address = 0x007;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, true, 2);
+
+	int warningCode = val[0];
+	switch (warningCode)
+	{
+	case 0:
+		sprintf(stringValue, "No Warning");
+		break;
+	case 44:
+	case 48:
+		sprintf(stringValue, "Center Frequency Too Low");
+		break;
+	case 62:
+		sprintf(stringValue, "IC Temperature Outside Allowed Range");
+		break;
+	default:
+		sprintf(stringValue, "Internal Warning");
+	}
+	return result;
+}
+
+int Lms8fe_Cmd_SC1905_GetStatus(lms_device_t *dev, LMS8FE_COM com, char * statusString)
+{
+	int result = LMS8FE_SUCCESS;
+	uint16_t address;
+	uint8_t val[2];
+
+	address = 0x005;
+	result = Lms8fe_Cmd_SC1905_SPI_Message_Memory(dev, com, address, val, true, 1);
+	int status = val[0];
+
+	switch (status)
+	{
+	case 0:
+		sprintf(statusString, "INIT");
+		break;
+	case 1:
+		sprintf(statusString, "FSA");
+		break;
+	case 3:
+		sprintf(statusString, "TRACK");
+		break;
+	case 6:
+		sprintf(statusString, "CAL");
+		break;
+	case 9:
+		sprintf(statusString, "PDET");
+		break;
+	default:
+		sprintf(statusString, "Unknown");
+	}
+	
+	return result;
+}
+
 
 int Lms8fe_Cmd_Set_Config_Full(lms_device_t *dev, LMS8FE_COM com, uint8_t *state, int size)
 {

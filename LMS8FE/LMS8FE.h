@@ -648,6 +648,9 @@ extern "C"
 	 * @return            0 on success, other on failure (see LimeLMS8FE error codes)
 	 */
 	API_EXPORT int CALL_CONV LMS8FE_LoadConfig(lms8fe_dev_t *lms8fe, const char *filename);
+	
+	// B.J.
+	API_EXPORT int CALL_CONV LMS8FE_SaveConfig(lms8fe_dev_t *lms8fe, const char *filename); //, lms8fe_boardState state);
 
 	/**
 	 *This function Resets the board.
@@ -829,6 +832,20 @@ extern "C"
 	 *This function is TEST !!! Send full configuration data to LMS8FE
 	 *
 	 */
+
+	API_EXPORT int LMS8FE_SC1905_Enable(lms8fe_dev_t *lms8fe, uint8_t channel, uint8_t enable);
+	API_EXPORT int LMS8FE_SC1905_Set_Duty_Cycle_Feedback(lms8fe_dev_t *lms8fe, uint8_t Enabled);
+	API_EXPORT int LMS8FE_SC1905_Set_Adaptation_State(lms8fe_dev_t *lms8fe, uint8_t Running);
+	API_EXPORT int LMS8FE_SC1905_Set_Correction_Enable(lms8fe_dev_t *lms8fe, uint8_t Enabled);
+    API_EXPORT int LMS8FE_SC1905_Read_RFIN_AGC(lms8fe_dev_t *lms8fe, int * rfinAgc);
+	API_EXPORT int LMS8FE_SC1905_Read_RFFB_AGC(lms8fe_dev_t *lms8fe, int * rffbAgc);
+	API_EXPORT int LMS8FE_SC1905_Read_Center_Frequency(lms8fe_dev_t *lms8fe, float * centerFreq);
+	API_EXPORT int LMS8FE_SC1905_Read_Signal_Bandwidth(lms8fe_dev_t *lms8fe, float * bandwidth);
+	API_EXPORT int LMS8FE_SC1905_Read_Error_Code(lms8fe_dev_t *lms8fe, char * stringValue);
+	API_EXPORT int LMS8FE_SC1905_Read_Warning_Code(lms8fe_dev_t *lms8fe, char * stringValue);
+	API_EXPORT int LMS8FE_SC1905_GetStatus(lms8fe_dev_t *lms8fe, char * statusString);
+
+ 
 	API_EXPORT int LMS8FE_Set_Config_Full(lms8fe_dev_t *lms8fe, uint8_t *state, int size);
 
 	/**

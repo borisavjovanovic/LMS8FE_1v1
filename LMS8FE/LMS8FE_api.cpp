@@ -96,6 +96,19 @@ extern "C" API_EXPORT int LMS8FE_LoadConfig(lms8fe_dev_t *lms8fe, const char *fi
     return result;
 }
 
+// B.J.
+extern "C" API_EXPORT int LMS8FE_SaveConfig(lms8fe_dev_t *lms8fe, const char *filename) // lms8fe_boardState state)
+{
+
+    int result = 0;
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+    
+    result = Lms8fe_Cmd_SaveConfig(dev->sdrDevice, dev->com, filename);
+    return result;
+}
+
 extern "C" API_EXPORT int LMS8FE_Reset(lms8fe_dev_t *lms8fe)
 {
     int result = 0;
@@ -283,6 +296,33 @@ extern "C" API_EXPORT int LMS8FE_DiodeSPI(lms8fe_dev_t *lms8fe, int state)
     return Lms8fe_Cmd_DiodeSPI(dev->sdrDevice, dev->com, state);
 }
 */
+extern "C" API_EXPORT int LMS8FE_SC1905_Enable(lms8fe_dev_t *lms8fe, uint8_t channel, uint8_t enable)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    lms8fe_boardState state;
+    int result = 0;	
+
+    result = LMS8FE_GetState(lms8fe, &state);
+    
+    if (channel == 0) {
+        if (enable == 1) 
+            state.SC1905_1_RESETn = 1;
+        else 
+            state.SC1905_1_RESETn = 0;     
+    } 
+    else 
+    {   if (enable == 1) 
+            state.SC1905_2_RESETn = 1;
+        else 
+            state.SC1905_2_RESETn = 0;
+    }
+    result = LMS8FE_SetState(lms8fe, state);
+    return result;
+}
+
 extern "C" API_EXPORT int LMS8FE_SC1905_SPI_Message_Memory(lms8fe_dev_t *lms8fe, uint16_t address, uint8_t *val, bool isRead, int bytesNo, bool isEEPROM)
 {
     if (!lms8fe)
@@ -318,6 +358,99 @@ extern "C" API_EXPORT int LMS8FE_SC1905_Apply_Frequency(lms8fe_dev_t *lms8fe, in
 
     return Lms8fe_Cmd_SC1905_Apply_Frequency(dev->sdrDevice, dev->com, freqRange, minFreq, maxFreq);
 }
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Set_Duty_Cycle_Feedback(lms8fe_dev_t *lms8fe, uint8_t Enabled)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Set_Duty_Cycle_Feedback(dev->sdrDevice, dev->com, Enabled);
+}
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Set_Adaptation_State(lms8fe_dev_t *lms8fe, uint8_t Running)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Set_Adaptation_State(dev->sdrDevice, dev->com, Running);
+}
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Set_Correction_Enable(lms8fe_dev_t *lms8fe, uint8_t Enabled)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Set_Correction_Enable(dev->sdrDevice, dev->com, Enabled);
+}
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Read_RFIN_AGC(lms8fe_dev_t *lms8fe, int * rfinAgc)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Read_RFIN_AGC(dev->sdrDevice, dev->com, rfinAgc);
+}
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Read_RFFB_AGC(lms8fe_dev_t *lms8fe, int * rffbAgc)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Read_RFFB_AGC(dev->sdrDevice, dev->com, rffbAgc);
+}
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Read_Center_Frequency(lms8fe_dev_t *lms8fe, float * centerFreq)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Read_Center_Frequency(dev->sdrDevice, dev->com, centerFreq);
+}
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Read_Signal_Bandwidth(lms8fe_dev_t *lms8fe, float * bandwidth)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Read_Signal_Bandwidth(dev->sdrDevice, dev->com, bandwidth);
+}
+
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Read_Error_Code(lms8fe_dev_t *lms8fe, char * stringValue)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Read_Error_Code(dev->sdrDevice, dev->com, stringValue);
+}
+
+extern "C" API_EXPORT int LMS8FE_SC1905_Read_Warning_Code(lms8fe_dev_t *lms8fe, char * stringValue)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905S_Read_Warning_Code(dev->sdrDevice, dev->com, stringValue);
+}
+
+
+extern "C" API_EXPORT int LMS8FE_SC1905_GetStatus(lms8fe_dev_t *lms8fe, char * statusString)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    return Lms8fe_Cmd_SC1905_GetStatus(dev->sdrDevice, dev->com, statusString);
+}
+
 
 extern "C" API_EXPORT int LMS8FE_Set_Config_Full(lms8fe_dev_t *lms8fe, uint8_t *state, int size)
 {
