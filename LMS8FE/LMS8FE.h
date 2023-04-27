@@ -844,6 +844,12 @@ extern "C"
 	API_EXPORT int LMS8FE_SC1905_Read_Error_Code(lms8fe_dev_t *lms8fe, char * stringValue);
 	API_EXPORT int LMS8FE_SC1905_Read_Warning_Code(lms8fe_dev_t *lms8fe, char * stringValue);
 	API_EXPORT int LMS8FE_SC1905_GetStatus(lms8fe_dev_t *lms8fe, char * statusString);
+	API_EXPORT int LMS8FE_Set_TX_Att(lms8fe_dev_t *lms8fe, uint8_t channel, float attenuation);
+	API_EXPORT int LMS8FE_Set_ORX_Att(lms8fe_dev_t *lms8fe, uint8_t channel, float attenuation);
+	API_EXPORT int LMS8FE_Get_TX_Att(lms8fe_dev_t *lms8fe, uint8_t channel, float *attenuation);
+	API_EXPORT int LMS8FE_Get_ORX_Att(lms8fe_dev_t *lms8fe, uint8_t channel, float *attenuation);
+	
+
 
  
 	API_EXPORT int LMS8FE_Set_Config_Full(lms8fe_dev_t *lms8fe, uint8_t *state, int size);

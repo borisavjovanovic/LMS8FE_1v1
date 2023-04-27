@@ -323,6 +323,89 @@ extern "C" API_EXPORT int LMS8FE_SC1905_Enable(lms8fe_dev_t *lms8fe, uint8_t cha
     return result;
 }
 
+extern "C" API_EXPORT int LMS8FE_Set_TX_Att(lms8fe_dev_t *lms8fe, uint8_t channel, float attenuation)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    lms8fe_boardState state;
+    int result = 0;	
+
+    uint8_t value = (uint8_t) (attenuation * 4.0);
+    if (value > 127) value = 127;
+
+    result = LMS8FE_GetState(lms8fe, &state);
+    
+    if (channel == 0) state.TX1_ATT = value;   
+    else state.TX2_ATT = value;   
+
+    result = LMS8FE_SetState(lms8fe, state);
+    return result;
+}
+
+extern "C" API_EXPORT int LMS8FE_Set_ORX_Att(lms8fe_dev_t *lms8fe, uint8_t channel, float attenuation)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    lms8fe_boardState state;
+    int result = 0;	
+
+    uint8_t value = (uint8_t) (attenuation * 4.0);
+    if (value > 127) value = 127;
+
+    result = LMS8FE_GetState(lms8fe, &state);
+    
+    if (channel == 0) state.ORX1_ATT = value;   
+    else state.ORX2_ATT = value;   
+
+    result = LMS8FE_SetState(lms8fe, state);
+    return result;
+}
+
+extern "C" API_EXPORT int LMS8FE_Get_TX_Att(lms8fe_dev_t *lms8fe, uint8_t channel, float *attenuation)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    lms8fe_boardState state;
+    int result = 0;	
+
+    uint8_t value = 0; 
+    result = LMS8FE_GetState(lms8fe, &state);
+    
+    if (channel == 0) value = state.TX1_ATT;   
+    else value = state.TX2_ATT;
+    if (value > 127) value = 127;
+
+    *attenuation = ((float) (value)) / 4.0;   
+
+    return result;
+}
+
+extern "C" API_EXPORT int LMS8FE_Get_ORX_Att(lms8fe_dev_t *lms8fe, uint8_t channel, float *attenuation)
+{
+    if (!lms8fe)
+        return -1;
+    auto *dev = static_cast<LMS8FE_Device *>(lms8fe);
+
+    lms8fe_boardState state;
+    int result = 0;	
+
+    uint8_t value = 0; 
+    result = LMS8FE_GetState(lms8fe, &state);
+    
+    if (channel == 0) value = state.ORX1_ATT;   
+    else value = state.ORX2_ATT;
+    if (value > 127) value = 127;
+
+    *attenuation = ((float) (value)) / 4.0; 
+    return result;
+}
+
 extern "C" API_EXPORT int LMS8FE_SC1905_SPI_Message_Memory(lms8fe_dev_t *lms8fe, uint16_t address, uint8_t *val, bool isRead, int bytesNo, bool isEEPROM)
 {
     if (!lms8fe)

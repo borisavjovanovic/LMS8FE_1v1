@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     char stringValue[100];
 
 
-    lms8fe = LMS8FE_Open("/dev/ttyACM1", nullptr);
+    lms8fe = LMS8FE_Open("/dev/ttyACM0", nullptr);
 
 	if (lms8fe == nullptr) {
 		std::cout << "Error: failed to open device" << std::endl;
@@ -111,7 +111,29 @@ int main(int argc, char** argv)
 
     result = LMS8FE_SC1905_Read_Warning_Code(lms8fe, stringValue);
     printf("SC1905 Warning code = %s\n", stringValue);
+
+    float attenuation = 0.0;
+    result = LMS8FE_Get_TX_Att(lms8fe, LMS8FE_CH1, &attenuation);
+    printf("TX1 att. = %8.3f\n", attenuation);
+
+    attenuation += 0.25;
+    result = LMS8FE_Set_TX_Att(lms8fe, LMS8FE_CH1, attenuation);
+
+    result = LMS8FE_Get_TX_Att(lms8fe, LMS8FE_CH1, &attenuation);
+    printf("TX1 att. = %8.3f\n", attenuation);
+
+    attenuation = 0.0;
+    result = LMS8FE_Get_ORX_Att(lms8fe, LMS8FE_CH1, &attenuation);
+    printf("ORX1 att. = %8.3f\n", attenuation);
+
+    attenuation += 0.25;
+    result = LMS8FE_Set_ORX_Att(lms8fe, LMS8FE_CH1, attenuation);
+    
+    result = LMS8FE_Get_ORX_Att(lms8fe, LMS8FE_CH1, &attenuation);
+    printf("ORX1 att. = %8.3f\n", attenuation);
 	
+
+
    //Close device
     LMS8_Close(lms8_device);
 
